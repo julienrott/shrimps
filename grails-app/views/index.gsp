@@ -1,16 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta content="IE=edge" http-equiv="X-UA-Compatible">
-	<meta content="width=device-width, initial-scale=1" name="viewport">
-	<meta content="" name="description">
-	<meta content="" name="author">
-	<link href="../../assets/ico/favicon.ico" rel="shortcut icon">
-	<title>Jumbotron Template for Bootstrap</title>
-	<r:require module="bootstrapCSS"/>
-	
-	<r:layoutResources/>
+  <meta content="main" name="layout">
+  <r:require module="bootstrapCSS"/>
 </head>
 <body>
     <div class="navbar navbar-fixed-top" role="navigation">
@@ -22,33 +14,64 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <r:img dir="images" file="logo.jpg" width="100"/>
+          <g:link uri="/">
+            <r:img dir="images" file="logo.jpg" height="100"/>
+          </g:link>
         </div>
         <div class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="form">
-            <div class="form-group">
-              <input placeholder="Email" class="form-control" type="text">
-            </div>
-            <div class="form-group">
-              <input placeholder="Password" class="form-control" type="password">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>
+          <div id="logindiv" class="navbar-right">
+            <sec:ifLoggedIn>
+               Logged in as <sec:username/> (<g:link uri='/j_spring_security_logout'>Logout</g:link>)
+            </sec:ifLoggedIn>
+            <sec:ifNotLoggedIn>
+              <g:set value="/j_spring_security_check" var="url"/>
+              <g:formRemote name="loginForm" url="[uri: url]" onSuccess="loginSuccess(data,textStatus);" onFailure="loginFailure(XMLHttpRequest,textStatus,errorThrown);" onComplete="loginComplete(XMLHttpRequest,textStatus);" before="loginClick()">
+                <g:textField name="j_username" placeholder="email"/>
+                <g:passwordField name="j_password" placeholder="mot de passe"/>
+                <g:submitButton name="loginbtn" value="Se connecter" />
+              </g:formRemote>
+              <div id="loginError" class="alert alert-danger" style="display: none;"></div>
+            </sec:ifNotLoggedIn>
+          </div>
         </div><!--/.navbar-collapse -->
       </div>
-    </div>
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" role="button">Learn more »</a></p>
-      </div>
+      <hr>
+
     </div>
 
     <div class="container">
-      <!-- Example row of columns -->
+      <div class="row">
+        
+        <div class="col-md-2">
+          <sec:ifAllGranted roles="ROLE_ADMIN">
+            <div class="well">
+              <h4>ADMIN</h4>
+              <ul>
+                <li>
+                  <g:link controller="categorie">Catégories</g:link>
+                </li>
+              </ul>
+            </div>
+          </sec:ifAllGranted>
+
+          <div class="well">
+            <h4>MENU</h4>
+          </div>
+        </div>
+
+        <div class="col-md-10">
+          <div class="jumbotron">
+            <div class="container">
+              <h1>Hello, world!</h1>
+              <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+              <p><a class="btn btn-primary btn-lg" role="button">Learn more »</a></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
       <div class="row">
         <div class="col-md-4">
           <h2>Heading</h2>
@@ -78,7 +101,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <r:require module="bootstrapJS"/>
-    <r:layoutResources/>
+    <r:require modules="bootstrapJS,application"/>
+    
 </body>
 </html>

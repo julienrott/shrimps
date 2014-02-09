@@ -112,4 +112,42 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+
+   environments {
+        development {
+            debug   'grails.app.controllers.fr.shrimpsforall',
+                    'grails.app.services.fr.shrimpsforall',
+                    'grails.app.domain'
+            error   'grails.app.jobs',
+                    'grails.app.filters'
+        }
+        test {
+            debug   'grails.app.controllers.fr.shrimpsforall',
+                    'grails.app.services.fr.shrimpsforall',
+                    'grails.app.domain'
+            error   'grails.app.jobs',
+                    'grails.app.filters'
+        }
+  }
 }
+
+//dbm config
+//grails.plugin.databasemigration.reports.updateOntart = true
+//grails.plugin.databasemigration.reports.changelogFileName = changelog.groovy
+grails.plugin.databasemigration.updateOnStart = true
+grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'fr.shrimpsforall.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'fr.shrimpsforall.UserRole'
+grails.plugin.springsecurity.authority.className = 'fr.shrimpsforall.Role'
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	'/':                              ['permitAll'],
+	'/index':                         ['permitAll'],
+	'/index.gsp':                     ['permitAll'],
+	'/**/js/**':                      ['permitAll'],
+	'/**/css/**':                     ['permitAll'],
+	'/**/images/**':                  ['permitAll'],
+	'/**/favicon.ico':                ['permitAll']
+]
+
