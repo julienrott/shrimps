@@ -33,7 +33,7 @@ class ProduitController {
 	def save() {
     	log.debug params
 		def produit
-		if (params.id > 0) {
+		if (params.id) {
 			produit = Produit.get(params.id)
 			produit.properties = params
 		}
