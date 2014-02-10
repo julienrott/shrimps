@@ -18,7 +18,7 @@
       	<g:hiddenField name="id" value="${categorie?.id}"/>
       	<g:textField name="titre" placeholder="titre" value="${categorie?.titre}"/>
       	<g:textField name="position" placeholder="position" value="${categorie?.position}"/>
-      	<g:submitButton name="newCategorieFormBtn" value="Sauver"/>
+      	<g:submitButton name="newCategorieFormBtn" value="Enregistrer"/>
       	<g:if test="${flash.message}">
       		<div class="alert alert-danger">${flash.message}</div>
       	</g:if>

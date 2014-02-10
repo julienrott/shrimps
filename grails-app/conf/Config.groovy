@@ -90,6 +90,11 @@ environments {
     production {
         grails.logging.jul.usebridge = false
         // TODO: grails.serverURL = "http://www.changeme.com"
+        security {
+            channelConfig = [secure: ['/**']]
+            httpPort = 80
+            httpsPort = 443
+        }
     }
 }
 
@@ -148,6 +153,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/js/**':                      ['permitAll'],
 	'/**/css/**':                     ['permitAll'],
 	'/**/images/**':                  ['permitAll'],
-	'/**/favicon.ico':                ['permitAll']
+    '/**/favicon.ico':                ['permitAll'],
+    '/ajaxUpload/upload':             ['ROLE_ADMIN']
 ]
 

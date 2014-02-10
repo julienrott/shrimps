@@ -10,7 +10,11 @@
 		<title>Jumbotron Template for Bootstrap</title>
 		<r:require module="bootstrapCSS"/>
 		<g:layoutHead/>
-		<g:javascript library="application"/>		
+		<g:javascript library="application"/>
+		<g:javascript>
+		//var urlContext = '${grailsApplication.config.grails.serverURL}';
+			var urlContext = "${createLink(uri: "/")}";
+		</g:javascript>
 		<r:layoutResources />
 	</head>
 	<body>
@@ -64,7 +68,7 @@
           <div class="well">
             <h4>MENU</h4>
             <g:each in="${fr.shrimpsforall.Categorie.list(sort: 'position', order: 'asc')}">
-            	<div>${it.titre}</div>
+            	<div><g:link uri="/${it.titre}">${it.titre}</g:link></div>
             </g:each>
           </div>
         </div>

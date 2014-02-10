@@ -2,19 +2,18 @@ package fr.shrimpsforall
 
 import grails.plugin.springsecurity.annotation.Secured
 
+@Secured(['ROLE_ADMIN'])
 class CategorieController {
 
 	static scaffold = true
 
 	def categorieService
 
-    @Secured(['ROLE_ADMIN'])
 	def index() {
 		log.debug params
 		[categories: Categorie.list(sort: 'position', order: 'asc'), categorie: Categorie.get(params.id)]
 	}
 
-	@Secured(['ROLE_ADMIN'])
 	def save() {
 		log.debug params
 
@@ -39,7 +38,6 @@ class CategorieController {
 		redirect action: "index", params: params
 	}
 
-	@Secured(['ROLE_ADMIN'])
 	def delete() {
 		log.debug params
 		def categorie = Categorie.get(params.id)
@@ -52,7 +50,6 @@ class CategorieController {
 		redirect action: "index"
 	}
 
-	@Secured(['ROLE_ADMIN'])
 	def edit() {
 		log.debug params
 		def categorie = Categorie.get(params.id)

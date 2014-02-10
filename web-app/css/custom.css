@@ -6,3 +6,12 @@ body {
     background-color: #FFFFFF;
     height: 130px;
 }
+
+.deleteIcon {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 15px;
+	height: 15px;
+	cursor: pointer;
+}
