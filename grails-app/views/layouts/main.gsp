@@ -7,7 +7,7 @@
 		<meta content="" name="description">
 		<meta content="" name="author">
 		<link href="../../assets/ico/favicon.ico" rel="shortcut icon">
-		<title>Jumbotron Template for Bootstrap</title>
+		<title><g:layoutTitle default="Shrimps For All"/></title>
 		<r:require module="bootstrapCSS"/>
 		<g:layoutHead/>
 		<g:javascript library="application"/>
@@ -33,9 +33,11 @@
           </g:link>
         </div>
         <div class="navbar-collapse collapse">
+
           <div id="logindiv" class="navbar-right">
             <sec:ifLoggedIn>
                Logged in as <sec:username/> (<g:link uri='/j_spring_security_logout'>Logout</g:link>)
+               <sec:ifAllGranted roles="ROLE_ADMIN"><button onclick="TogetherJS(this); return false;">Start TogetherJS</button></sec:ifAllGranted>
             </sec:ifLoggedIn>
             <sec:ifNotLoggedIn>
               <g:set value="/j_spring_security_check" var="url"/>
@@ -47,6 +49,11 @@
               <div id="loginError" class="alert alert-danger" style="display: none;"></div>
             </sec:ifNotLoggedIn>
           </div>
+
+          <div id="panierdiv" class="navbar-right" style="clear: right;">
+            <g:render template="/panier/panier"/>
+          </div>
+
         </div><!--/.navbar-collapse -->
       </div>
 
@@ -90,7 +97,12 @@
 
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <r:require modules="bootstrapJS,application"/>
-		
+    <sec:ifAllGranted roles="ROLE_ADMIN">
+		  <script src="https://togetherjs.com/togetherjs-min.js"></script>
+    </sec:ifAllGranted>
+    
+    <g:javascript>$(document).ready(function(){initPanier();});</g:javascript>
+
 		<r:layoutResources />
 	</body>
 </html>

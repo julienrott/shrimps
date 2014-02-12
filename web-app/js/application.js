@@ -47,3 +47,40 @@ function loadPhotos() {
 		});
 	}
 }
+
+function initPanier() {
+	$("#vider-panier").click(function() {
+		$.post(urlContext + "panier/vider", {}, function(data) {
+			$("#panierdiv").html(data);
+		});
+	});
+
+	$(".inc-quantite-panier").click(function() {
+		var idProduit = $(this).attr("data-id");
+		var input = $("#quantite_" + idProduit);
+		var quantite = parseInt(input.val());
+		input.val(quantite + 1);
+	});
+
+	$(".dec-quantite-panier").click(function() {
+		var idProduit = $(this).attr("data-id");
+		var input = $("#quantite_" + idProduit);
+		var quantite = parseInt(input.val());
+		if (quantite > 1) {
+			input.val(quantite - 1);
+		}
+	});
+	
+	$(".add-panier").click(function() {
+		var idProduit = $(this).attr("data-id");
+		var input = $("#quantite_" + idProduit);
+		var quantite = parseInt(input.val());
+		if (quantite > 0) {
+			$.post(urlContext + "panier/add", {id: idProduit, quantite: quantite}, function(data) {
+				$("#panierdiv").html(data);
+			});
+		}
+		return false;
+	});
+
+}

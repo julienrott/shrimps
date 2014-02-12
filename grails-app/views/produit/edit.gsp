@@ -32,7 +32,7 @@
           </div>
           <div class="form-group">
             <g:set var="categories" value="${fr.shrimpsforall.Categorie.list(sort: 'position', order: 'asc')}"/>
-            <g:select name="categorie" class="form-control" value="${produit.categorie}" from="${categories}" optionKey="id" optionValue="titre"/>
+            <g:select name="categorie" class="form-control" value="${produit.categorie.id}" from="${categories}" optionKey="id" optionValue="titre"/>
           </div>
           <g:submitButton name="editProduitFormBtn" value="Enregistrer" class="btn btn-default"/>
         </g:form>
