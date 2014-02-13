@@ -86,7 +86,8 @@ class PhotoController {
 
 			switch (params.type)
 			{
-				case "small" : response.outputStream << photo.data_small; break;// write the image to the outputstream
+				case "full" : response.outputStream << photo.data; break;// write the image to the outputstream
+				case "small" : response.outputStream << photo.data_small; break;
 				case "slider" : response.outputStream << photo.data_slider; break;
 				case "small_homepage" : response.outputStream << photo.data_small_homepage; break;
 			}

@@ -11,7 +11,7 @@
       <h1>Mon Panier</h1>
     </div>
 
-    <g:each in="${session.panier.lignes}">
+    <g:each in="${session.panier?.lignes}">
       <div class="row">
         ${it.quantite} x ${it.produit.titre}
       </div>
