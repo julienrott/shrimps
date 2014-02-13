@@ -83,6 +83,28 @@ grails.exceptionresolver.params.exclude = ['password']
 // configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
 grails.hibernate.cache.queries = false
 
+//redirect to https
+/*grails.plugin.springsecurity.secureChannel.useHeaderCheckChannelSecurity = true
+grails.plugin.springsecurity.portMapper.httpPort = 80
+grails.plugin.springsecurity.portMapper.httpsPort = 443
+grails.plugin.springsecurity.secureChannel.secureHeaderName = 'X-Forwarded-Proto'
+grails.plugin.springsecurity.secureChannel.secureHeaderValue = 'http'
+grails.plugin.springsecurity.secureChannel.insecureHeaderName = 'X-Forwarded-Proto'
+grails.plugin.springsecurity.secureChannel.insecureHeaderValue = 'https'*/
+grails.plugin.springsecurity.secureChannel.definition = [
+   '/**':         'REQUIRES_SECURE_CHANNEL'
+]
+environments {
+    development {
+        grails.plugin.springsecurity.portMapper.httpPort = 8080
+        grails.plugin.springsecurity.portMapper.httspPort = 8443
+    }
+    production {
+        grails.plugin.springsecurity.portMapper.httpPort = 80
+        grails.plugin.springsecurity.portMapper.httspPort = 443
+    }
+}
+
 environments {
     development {
         grails.logging.jul.usebridge = true
@@ -90,11 +112,6 @@ environments {
     production {
         grails.logging.jul.usebridge = false
         // TODO: grails.serverURL = "http://www.changeme.com"
-        security {
-            channelConfig = [secure: ['/**']]
-            httpPort = 80
-            httpsPort = 443
-        }
     }
 }
 
