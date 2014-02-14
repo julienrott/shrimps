@@ -24,15 +24,31 @@
       <div class="row">
         <g:form name="editProduitForm" action="save" role="form">
           <g:hiddenField name="id" value="${produit.id}"/>
+
           <div class="form-group">
+            <label for="titre">Titre</label>
             <g:textField name="titre" class="form-control" value="${produit.titre}" placeholder="titre"/>
           </div>
+
           <div class="form-group">
+            <label for="description">Description</label>
             <g:textArea name="description" class="form-control" value="${produit.description}"/>
           </div>
+
           <div class="form-group">
+            <label for="categorie">Categorie</label>
             <g:set var="categories" value="${fr.shrimpsforall.Categorie.list(sort: 'position', order: 'asc')}"/>
             <g:select name="categorie" class="form-control" value="${produit.categorie.id}" from="${categories}" optionKey="id" optionValue="titre"/>
+          </div>
+
+          <div class="form-group">
+            <label for="prix">Prix</label>
+            <g:textField name="prix" class="form-control" value="${formatNumber(number: produit.prix, type: 'currency', currencyCode: 'EUR')}"/>
+          </div>
+
+          <div class="form-group">
+            <label for="fraisPort">Frais de port</label>
+            <g:textField name="fraisPort" class="form-control" value="${formatNumber(number: produit.fraisPort, type: 'currency', currencyCode: 'EUR')}"/>
           </div>
           <g:submitButton name="editProduitFormBtn" value="Enregistrer" class="btn btn-default"/>
         </g:form>

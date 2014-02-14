@@ -12,6 +12,49 @@ class PanierController {
     	render template: 'panier'
     }
 
+    def delrow() {
+        def panier = session.panier
+        def produit = Produit.get(params.id)
+        def iterator = panier.lignes.iterator()
+
+        while(iterator.hasNext()) {
+            def ligne = iterator.next()
+            if(ligne.produit.id == params.id as long) {
+                iterator.remove()
+            }
+        }
+
+        redirect action: 'index'
+    }
+
+    def inc() {
+        def panier = session.panier
+        def produit = Produit.get(params.id)
+
+        panier.lignes.each { ligne ->
+            if(ligne.produit.id == params.id as long) {
+                ligne.quantite += 1
+            }
+        }
+
+        redirect action: 'index'
+    }
+
+    def dec() {
+        def panier = session.panier
+        def produit = Produit.get(params.id)
+
+        panier.lignes.each { ligne ->
+            if(ligne.produit.id == params.id as long) {
+                if(ligne.quantite > 1) {
+                    ligne.quantite -= 1
+                }
+            }
+        }
+
+        redirect action: 'index'
+    }
+
     @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def add() {
     	log.debug params

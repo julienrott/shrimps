@@ -97,11 +97,11 @@ grails.plugin.springsecurity.secureChannel.definition = [
 environments {
     development {
         grails.plugin.springsecurity.portMapper.httpPort = 8080
-        grails.plugin.springsecurity.portMapper.httspPort = 8443
+        grails.plugin.springsecurity.portMapper.httpsPort = 8443
     }
     production {
         grails.plugin.springsecurity.portMapper.httpPort = 80
-        grails.plugin.springsecurity.portMapper.httspPort = 443
+        grails.plugin.springsecurity.portMapper.httpsPort = 443
     }
 }
 

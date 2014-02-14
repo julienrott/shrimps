@@ -7,4 +7,6 @@ databaseChangeLog = {
 	include file: 'categorie2.groovy'
 
 	include file: 'produit.groovy'
+
+	include file: 'fraisPort.groovy'
 }
