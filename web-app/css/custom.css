@@ -1,10 +1,18 @@
 body {
-    padding-top: 130px;
+    padding-top: 110px;
 }
 
 .navbar {
     background-color: #FFFFFF;
-    height: 130px;
+    height: 110px;
+}
+
+.container-main {
+	margin-top: 20px;
+}
+
+.nav > li > a {
+    padding: 4px;
 }
 
 .deleteIcon {

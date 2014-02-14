@@ -32,7 +32,7 @@
 
           <div class="form-group">
             <label for="description">Description</label>
-            <g:textArea name="description" class="form-control" value="${produit.description}"/>
+            <g:textArea name="description" class="form-control" value="${produit.description}" rows="15"/>
           </div>
 
           <div class="form-group">
@@ -82,7 +82,7 @@
 
   <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
   <g:javascript>
-    tinymce.init({selector:'textarea', menu: {}});
+    tinymce.init({selector:'textarea', menu: {}, toolbar: "styleselect | bold italic underline | bullist numlist | link image media", plugins: "link, image, paste, media, advlist"});
   </g:javascript>
 </body>
 </html>

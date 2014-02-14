@@ -49,17 +49,17 @@
         <tr class="info">
           <td colspan="5"></td>
           <td>Total Produits</td>
-          <td>${formatNumber(number: session.panier.totalProduits(), type: 'currency', currencyCode: 'EUR')}</td>
+          <td>${formatNumber(number: session.panier?.totalProduits(), type: 'currency', currencyCode: 'EUR')}</td>
         </tr>
         <tr class="warning">
           <td colspan="5"></td>
           <td>Total Frais de port</td>
-          <td>${formatNumber(number: session.panier.totalFraisPort(), type: 'currency', currencyCode: 'EUR')}</td>
+          <td>${formatNumber(number: session.panier?.totalFraisPort(), type: 'currency', currencyCode: 'EUR')}</td>
         </tr>
         <tr class="danger">
           <td colspan="5"></td>
           <td>Total TTC</td>
-          <td>${formatNumber(number: session.panier.totalTTC(), type: 'currency', currencyCode: 'EUR')}</td>
+          <td>${formatNumber(number: session.panier?.totalTTC(), type: 'currency', currencyCode: 'EUR')}</td>
         </tr>
       </tbody>
     </table>

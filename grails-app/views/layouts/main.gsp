@@ -19,7 +19,7 @@
 	</head>
 	<body>
 
-		<div class="navbar navbar-fixed-top" role="navigation">
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -57,27 +57,26 @@
         </div><!--/.navbar-collapse -->
       </div>
 
-      <hr>
-
     </div>
 		
-		<div class="container">
+		<div class="container container-main">
       <div class="row">
-        
+
         <div class="col-md-2">
           <sec:ifAllGranted roles="ROLE_ADMIN">
             <div class="well">
               <h4>ADMIN</h4>
-                <div><g:link controller="categorie">Catégories</g:link></div>
+              <ul class="nav nav-pills nav-stacked">
+                <li><g:link controller="categorie">Catégories</g:link></li>
+              </ul>
             </div>
           </sec:ifAllGranted>
 
-          <div class="well">
-            <h4>MENU</h4>
+          <ul class="nav nav-pills nav-stacked">
             <g:each in="${fr.shrimpsforall.Categorie.list(sort: 'position', order: 'asc')}">
-            	<div><g:link uri="/${it.titre}">${it.titre}</g:link></div>
+            	<li class="${titre?.equals(it.titre)?'active':''}"><g:link uri="/${it.titre}">${it.titre}</g:link></li>
             </g:each>
-          </div>
+          </ul>
         </div>
 
         <div class="col-md-10">
