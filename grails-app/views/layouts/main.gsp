@@ -32,11 +32,11 @@
             <r:img dir="images" file="logo.jpg" height="100"/>
           </g:link>
         </div>
-        <div class="navbar-collapse collapse">
+        <div class="navbar-collapse collapse" style="background: white;">
 
           <div id="logindiv" class="navbar-right">
             <sec:ifLoggedIn>
-               Logged in as <sec:username/> (<g:link uri='/j_spring_security_logout'>Logout</g:link>)
+               Bonjour <sec:username/> (<g:link uri='/j_spring_security_logout'>Se Déconnecter</g:link>)
                <sec:ifAllGranted roles="ROLE_ADMIN"><button onclick="TogetherJS(this); return false;">Start TogetherJS</button></sec:ifAllGranted>
             </sec:ifLoggedIn>
             <sec:ifNotLoggedIn>

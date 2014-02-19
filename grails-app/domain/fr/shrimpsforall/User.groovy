@@ -1,6 +1,6 @@
 package fr.shrimpsforall
 
-class User {
+class User implements Serializable {
 
 	transient springSecurityService
 
@@ -11,11 +11,20 @@ class User {
 	boolean accountLocked
 	boolean passwordExpired
 
+	Adresse adresse
+	String nom
+	String prenom
+
+	static hasMany = [commandes: Commande]
+
 	static transients = ['springSecurityService']
 
 	static constraints = {
-		username blank: false, unique: true
+		username blank: false, unique: true, email: true
 		password blank: false
+		adresse nullable: true
+		nom nullable: true
+		prenom nullable: true
 	}
 
 	static mapping = {

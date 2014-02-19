@@ -1,6 +1,6 @@
 package fr.shrimpsforall
 
-class Role {
+class Role implements Serializable {
 
 	String authority
 

@@ -1,6 +1,6 @@
 package fr.shrimpsforall
 
-class Produit {
+class Produit implements Serializable {
 
 	String titre
 	String description

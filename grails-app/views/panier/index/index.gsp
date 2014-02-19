@@ -64,6 +64,17 @@
       </tbody>
     </table>
 
+    <div class="row">
+      <g:if test="${session.panier?.lignes?.size() > 0}">
+        <g:link event="commander" disabled="disabled">
+          <button type="button" class="btn btn-primary col-md-offset-10" ${session.panier?.lignes?.size() > 0 ? "" : "disabled"}>Commander</button>
+        </g:link>
+      </g:if>
+      <g:else>
+        <button type="button" class="btn btn-primary col-md-offset-10" ${session.panier?.lignes?.size() > 0 ? "" : "disabled"}>Commander</button>
+      </g:else>
+    </div>
+
   </div>
     
 </body>
