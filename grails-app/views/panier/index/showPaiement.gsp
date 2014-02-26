@@ -99,7 +99,10 @@
 	        	</div>
 				
 				<div class="row col-md-offset-10">
-        			<g:submitButton event="payer" class="btn btn-primary" value="Payer"/>
+        			<g:submitButton event="payer" class="btn btn-primary" value="Payer" id="paybtn"/>
+        			<g:javascript>
+        				$("#paybtn").on("click", function(){$(this).prop("disabled",true);});
+        			</g:javascript>
 	        	</div>
 			</form>
 

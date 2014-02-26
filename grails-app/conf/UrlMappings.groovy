@@ -7,7 +7,7 @@ class UrlMappings {
             }
         }
 
-        "/"(controller:"home")
+        "/"(controller:"home", action: 'index')
         "500"(view:'/error')
 
         "/$categorieProduit"(controller: "produit", action: "list")

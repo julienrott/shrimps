@@ -17,4 +17,6 @@ databaseChangeLog = {
 	include file: 'adresse-ligne2-nullable.groovy'
 
 	include file: 'commande.groovy'
+
+	include file: 'homePageSlider.groovy'
 }

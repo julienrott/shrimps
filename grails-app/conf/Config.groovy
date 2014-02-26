@@ -158,6 +158,11 @@ log4j = {
 //grails.plugin.databasemigration.reports.changelogFileName = changelog.groovy
 grails.plugin.databasemigration.updateOnStart = true
 grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
+environments {
+    test {
+        grails.plugin.databasemigration.updateOnStart = false
+    }
+}
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'fr.shrimpsforall.User'

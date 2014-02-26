@@ -44,7 +44,8 @@
               <g:formRemote name="loginForm" url="[uri: url]" onSuccess="loginSuccess(data,textStatus);" onFailure="loginFailure(XMLHttpRequest,textStatus,errorThrown);" onComplete="loginComplete(XMLHttpRequest,textStatus);" before="loginClick()">
                 <g:textField name="j_username" placeholder="email"/>
                 <g:passwordField name="j_password" placeholder="mot de passe"/>
-                <g:submitButton name="loginbtn" value="Se connecter" />
+                <g:submitButton name="loginbtn" value="Se connecter" class="btn btn-primary"/>
+                <g:link controller="home" action="createAccount" class="h6">Créer un compte</g:link>
               </g:formRemote>
               <div id="loginError" class="alert alert-danger" style="display: none;"></div>
             </sec:ifNotLoggedIn>
@@ -68,6 +69,7 @@
               <h4>ADMIN</h4>
               <ul class="nav nav-pills nav-stacked">
                 <li><g:link controller="categorie">Catégories</g:link></li>
+                <li><g:link controller="homePageSlider">Photos Accueil</g:link></li>
               </ul>
             </div>
           </sec:ifAllGranted>

@@ -28,13 +28,13 @@ class PanierController {
                 if(springSecurityService.isLoggedIn()) adresse()
                 else loginPage()
             }
-            on("adresse").to "toAdresse"
+            on("adresse"){conversation.showBreadCrumb = true}.to "toAdresse"
             on("loginPage").to "loginPage"
         }
         loginPage {
             render view: 'loginPage'
             on("connect").to "connect"
-            on("showCreateAccount").to "showCreateAccount"
+            on("showCreateAccount"){conversation.showBreadCrumb = true}.to "showCreateAccount"
         }
         connect {
             action {
@@ -50,90 +50,30 @@ class PanierController {
                 }
                 
             }
-            on("adresse").to "toAdresse"
+            on("adresse"){conversation.showBreadCrumb = true}.to "toAdresse"
             on(Exception).to "loginPage"
         }
         showCreateAccount {
-            render view: 'createAccount'
-            on("createAccount").to "createAccount"
-        }
-        createAccount {
-            action {
-                if( params.j_username2.equals(params.j_username2_confirm) && 
-                    params.j_password2.equals(params.j_password2_confirm) ) {
-                    
-                    User user = new User(username: params.j_username2, password: params.j_password2)
-                    if (!user.save()) {
-                        flow.user = user
-                        error()
-                    }
-                    springSecurityService.reauthenticate user.username
-                }
-                else {
-                    User user = new User(username: params.j_username2, password: params.j_password2)
-                    flow.user = user
-                    flash.message = "Les données ne correspondent pas"
-                    error()
-                }
-            }
-            on("error").to "showCreateAccount"
-            on(Exception).to "showCreateAccount"
+            subflow controller: "home", action: "newAccount"
             on("success").to "toAdresse"
         }
         toAdresse {
             action {
                 User user = User.findByUsername(springSecurityService.getCurrentUser().getUsername())
-                
-                [user: user]
+                //[user: user]
+                conversation.user = user
             }
+            
             on("success").to "adresse"
         }
         adresse {
-            on("createAdresse").to "createAdresse"
-        }
-        createAdresse {
-            action {
-                def user = User.findByUsername(springSecurityService.getCurrentUser().getUsername())
-
-                user.nom = params.nom
-                user.prenom = params.prenom
-                
-                if(user.adresse) {
-                    user.adresse.properties = params
-                }
-                else{
-                    def adresse = new Adresse(params)
-                    adresse.client = user
-                    user.adresse = adresse
-                }
-
-                def cansave = false
-
-                if(user.nom.trim() != "" && user.prenom.trim() != "") {
-                    cansave = true
-                }
-
-                if(!user.save(flush: true) || !cansave) {
-
-                    if(user.nom.trim() == "") {
-                        user.errors.rejectValue( 'nom', 'user.nom.nullable')
-                    }
-
-                    if(user.prenom.trim() == "") {
-                        user.errors.rejectValue('prenom', 'user.prenom.nullable')
-                    }
-
-                    flow.user = user
-                    return error()
-                }
-            }
-            on("error").to "adresse"//garder les données saisies
+            subflow controller: "home", action: "adresse"
             on("success") {
                 [user: User.findByUsername(springSecurityService.getCurrentUser().getUsername())]
             }.to "showPaiement"
         }
         showPaiement {
-            on("retour").to "adresse"
+            on("retour").to "toAdresse"
             on("payer").to "payer"
         }
         payer {

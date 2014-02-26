@@ -7,12 +7,15 @@
 <body>
     
 	<div class="container-fluid">
-  		<div class="row">
-			<button class="btn btn-default col-md-3" disabled>Connection</button>
-			<button class="btn btn-primary col-md-3" disabled>Adresse</button>
-			<button class="btn btn-default col-md-3" disabled>Paiement</button>
-			<button class="btn btn-default col-md-3" disabled>Confirmation</button>
-		</div>
+
+		<g:if test="${showBreadCrumb}">
+	  		<div class="row">
+				<button class="btn btn-default col-md-3" disabled>Connection</button>
+				<button class="btn btn-primary col-md-3" disabled>Adresse</button>
+				<button class="btn btn-default col-md-3" disabled>Paiement</button>
+				<button class="btn btn-default col-md-3" disabled>Confirmation</button>
+			</div>
+		</g:if>
 
 		<div>&nbsp;</div>
 
