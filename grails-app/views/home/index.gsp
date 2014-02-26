@@ -6,23 +6,29 @@
 <body>
 
 	<div class="row">
-		<div id="carousel-example-generic" class="carousel slide col-md-offset-1 col-md-10" data-ride="carousel">
+		<div id="carousel-example-generic" class="carousel slide col-md-offset-1 col-md-10" data-ride="carousel" style="max-height: 300px;">
 			<!-- Indicators -->
-			<ol class="carousel-indicators">
+			<!--<ol class="carousel-indicators">
 				<g:each in="${homePageSlider?.photos}" var="photo" status="i">
 					<li data-target="#carousel-example-generic" data-slide-to="${i}" class="${i==0?"active":""}"></li>
 				</g:each>
-			</ol>
+			</ol>-->
 
 			<!-- Wrapper for slides -->
-			<div class="carousel-inner">
+			<div class="carousel-inner" style="max-height: 300px;">
 				<g:each in="${homePageSlider?.photos}" var="photo" status="i">
-				<div class="item ${i==0?"active":""}">
-					<img class="img-responsive col-md-offset-1 col-md-10" src="data:image/png;base64,${photo.data_slider.encodeBase64()}" alt="">
-					<div class="carousel-caption">
-					</div>
-				</div>
-			</g:each>
+					<g:if test="${homePageSlider?.photos[i]}">
+						<div class="item ${i==0?"active":""}">
+							
+							<img class="img-responsive col-md-offset-1 col-md-5" src="data:image/png;base64,${homePageSlider?.photos[i]?.data_slider?.encodeBase64()}" alt="" style="max-height: 300px;">
+							
+							<g:set var="i" value="${i++}"/>
+							
+							<img class="img-responsive col-md-offset-0 col-md-5" src="data:image/png;base64,${homePageSlider?.photos[i]?.data_slider?.encodeBase64()}" alt="" style="max-height: 300px; margin-left: -15px;">
+							
+						</div>
+					</g:if>
+				</g:each>
 			</div>
 
 			<!-- Controls -->
@@ -37,7 +43,7 @@
 
 	<g:javascript>
 		$('.carousel').carousel({
-			interval: 1500
+			interval: 3000
 		})
 	</g:javascript>
 
