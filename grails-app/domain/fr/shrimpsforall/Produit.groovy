@@ -8,7 +8,7 @@ class Produit implements Serializable {
 	double fraisPort
 	Categorie categorie
 
-	static hasMany = [photos: Photo]
+	static hasMany = [photos: Photo, lots: Lot]
 
     static constraints = {
     }

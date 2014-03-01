@@ -25,22 +25,22 @@
         <g:each in="${session.panier?.lignes}">
           <tr>
             <td>
-              <g:link action="delrow" id="${it.produit.id}">
+              <g:link action="delrow" id="${it.produit.id}" params="${[idLot: it.lot?.id?:0]}">
                 <span class="glyphicon glyphicon-remove-circle" title="Supprimer"></span>
               </g:link>
             </td>
-            <td>${it.produit.titre}</td>
+            <td>${it.lot?.titre} ${it.produit.titre}</td>
             <td>
-              <g:link action="dec" id="${it.produit.id}">
+              <g:link action="dec" id="${it.produit.id}" params="${[idLot: it.lot?.id?:0]}">
                 <span class="glyphicon glyphicon-minus"></span>
               </g:link>
               ${it.quantite}
-              <g:link action="inc" id="${it.produit.id}">
+              <g:link action="inc" id="${it.produit.id}" params="${[idLot: it.lot?.id?:0]}">
                 <span class="glyphicon glyphicon-plus"></span>
               </g:link>
             </td>
-            <td>${formatNumber(number: it.produit.prix, type: 'currency', currencyCode: 'EUR')}</td>
-            <td>${formatNumber(number: it.produit.prix * it.quantite, type: 'currency', currencyCode: 'EUR')}</td>
+            <td>${formatNumber(number: it.lot ? it.lot.prix : it.produit.prix, type: 'currency', currencyCode: 'EUR')}</td>
+            <td>${formatNumber(number: it.lot ? it.lot.prix * it.quantite : it.produit.prix * it.quantite, type: 'currency', currencyCode: 'EUR')}</td>
             <td>${formatNumber(number: it.produit.fraisPort, type: 'currency', currencyCode: 'EUR')}</td>
             <td>${formatNumber(number: it.produit.fraisPort * it.quantite, type: 'currency', currencyCode: 'EUR')}</td>
           </tr>

@@ -14,7 +14,8 @@ class Panier {
 	def totalProduits() {
 		def totalProduits = 0
 		lignes.each {
-			totalProduits += it.quantite * it.produit.prix
+			//totalProduits += it.lot ? it.lot.prix * it.quantite : it.produit.prix * it.quantite
+			totalProduits += it.quantite * (it.lot ? it.lot.prix : it.produit.prix)
 		}
 		totalProduits
 	}
@@ -30,7 +31,7 @@ class Panier {
 	def totalTTC() {
 		def totalTTC = 0
 		lignes.each {
-			totalTTC += it.quantite * (it.produit.prix + it.produit.fraisPort)
+			totalTTC += it.quantite * ((it.lot ? it.lot.prix : it.produit.prix) + it.produit.fraisPort)
 		}
 		totalTTC
 	}

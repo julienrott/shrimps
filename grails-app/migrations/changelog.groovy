@@ -19,4 +19,6 @@ databaseChangeLog = {
 	include file: 'commande.groovy'
 
 	include file: 'homePageSlider.groovy'
+
+	include file: 'lots.groovy'
 }

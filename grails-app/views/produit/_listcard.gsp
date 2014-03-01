@@ -43,36 +43,69 @@
         })
       </g:javascript>
 
+      <g:if test="${produit?.lots?.size() > 0}">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+
+              <g:each in="${produit?.lots}" var="lot">
+                <g:hiddenField name="lot-${lot.id}" value="${formatNumber(number: lot.prix, type: 'currency', currencyCode: 'EUR')}"/>
+              </g:each>
+
+              <g:select name="lots-${produit.id}" data-id="${produit.id}" from="${produit.lots.sort{it.id}}" optionKey="id" optionValue="titre"/>
+
+              <g:javascript>
+                $("#lots-${produit.id}").on("change", function() {
+                  var idProduit = $(this).attr("data-id");
+                  var idLot = $(this).val();
+                  var prixLot = $("#lot-" + idLot).val();
+                  $("#prix-" + idProduit).html(prixLot);
+                  console.log(idProduit);
+                });
+              </g:javascript>
+
+            </h4>
+          </div>
+        </div>
+      </g:if>
+
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            Prix: ${formatNumber(number: produit.prix, type: 'currency', currencyCode: 'EUR')}
+            Prix: <span id="prix-${produit.id}">${formatNumber(number: produit.lots.size() > 0 ? produit.lots.sort{it.id}.first().prix : produit.prix, type: 'currency', currencyCode: 'EUR')}</span>
           </h4>
         </div>
       </div>
 
-      <div class="panel panel-default">
+      <!--<div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
             Port: ${formatNumber(number: produit.fraisPort, type: 'currency', currencyCode: 'EUR')}
           </h4>
         </div>
-      </div>
+      </div>-->
 
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <sec:ifAllGranted roles="ROLE_ADMIN">
-              <g:link action="edit" id="${produit.id}">modifier</g:link>
-              <g:link action="delete" id="${produit.id}">supprimer</g:link>
-            </sec:ifAllGranted>
             <span class="glyphicon glyphicon-minus dec-quantite-panier" data-id="${produit.id}" style="cursor: pointer;"></span>
             <g:textField size="2" name="quantite_${produit.id}" value="1" class="quantite-panier" disabled="disabled"/>
             <span class="glyphicon glyphicon-plus inc-quantite-panier" data-id="${produit.id}" style="cursor: pointer;"></span>
-            <a href="#" class="add-panier" data-id="${produit.id}">Ajouter au panier</a>
+            <a href="#" class="add-panier" data-id="${produit.id}" data-lots="${produit?.lots?.size() > 0}">Ajouter au panier</a>
           </h4>
         </div>
       </div>
+
+      <sec:ifAllGranted roles="ROLE_ADMIN">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+                <g:link action="edit" id="${produit.id}">modifier</g:link>
+                <g:link action="delete" id="${produit.id}">supprimer</g:link>
+            </h4>
+          </div>
+        </div>
+      </sec:ifAllGranted>
 
     </div>
   </div>

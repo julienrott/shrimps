@@ -72,11 +72,18 @@ function initPanier() {
 	});
 	
 	$(".add-panier").click(function() {
+		var lots = $(this).attr("data-lots") === "true";
 		var idProduit = $(this).attr("data-id");
+		var idLot = 0;
+
+		if(lots) {
+			idLot = $("#lots-" + idProduit).val();
+		}
+		
 		var input = $("#quantite_" + idProduit);
 		var quantite = parseInt(input.val());
 		if (quantite > 0) {
-			$.post(urlContext + "panier/add", {id: idProduit, quantite: quantite}, function(data) {
+			$.post(urlContext + "panier/add", {idProduit: idProduit, idLot: idLot, lots: lots, quantite: quantite}, function(data) {
 				$("#panierdiv").html(data);
 			});
 		}

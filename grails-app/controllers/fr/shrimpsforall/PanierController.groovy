@@ -139,11 +139,17 @@ class PanierController {
     def delrow() {
         def panier = session.panier
         def produit = Produit.get(params.id)
+        def idLot = params.idLot as long
         def iterator = panier.lignes.iterator()
 
         while(iterator.hasNext()) {
             def ligne = iterator.next()
-            if(ligne.produit.id == params.id as long) {
+            if(idLot > 0) {
+                if(ligne.lot?.id == idLot) {
+                    iterator.remove()
+                }
+            }
+            else if(ligne.produit.id == params.id as long) {
                 iterator.remove()
             }
         }
@@ -154,9 +160,15 @@ class PanierController {
     def inc() {
         def panier = session.panier
         def produit = Produit.get(params.id)
+        def idLot = params.idLot as long
 
         panier.lignes.each { ligne ->
-            if(ligne.produit.id == params.id as long) {
+            if(idLot > 0) {
+                if(ligne.lot?.id == idLot) {
+                    ligne.quantite += 1
+                }
+            }
+            else if(ligne.produit.id == params.id as long) {
                 ligne.quantite += 1
             }
         }
@@ -167,12 +179,16 @@ class PanierController {
     def dec() {
         def panier = session.panier
         def produit = Produit.get(params.id)
+        def idLot = params.idLot as long
 
         panier.lignes.each { ligne ->
-            if(ligne.produit.id == params.id as long) {
-                if(ligne.quantite > 1) {
+            if(idLot > 0) {
+                if(ligne.lot?.id == idLot && ligne.quantite > 1) {
                     ligne.quantite -= 1
                 }
+            }
+            else if(ligne.produit.id == params.id as long && ligne.quantite > 1) {
+                ligne.quantite -= 1
             }
         }
 
@@ -184,23 +200,35 @@ class PanierController {
     	log.debug params
 
     	def panier = session.panier?:new Panier()
-    	def produit = Produit.get(params.id)
+        def idProduit = params.idProduit as long
+    	def produit = Produit.get(idProduit)
         def quantite = params.quantite as int
     	def added = false
+        def idLot = params.idLot as long
 
-		panier.lignes.each { ligne ->
-			if(ligne.produit.id == params.id as long) {
-				ligne.quantite += quantite
-				added = true
-			}
+        panier.lignes.each { ligne ->
+            if (idLot > 0) {
+    			if(ligne.lot?.id == idLot) {
+    				ligne.quantite += quantite
+    				added = true
+    			}
+            }
+            else {
+                if(ligne.produit.id == idProduit) {
+                    ligne.quantite += quantite
+                    added = true
+                }
+            }
     	}
 
     	if(!added) {
-    		LignePanier ligne = new LignePanier(produit: produit, quantite: quantite)
+    		LignePanier ligne = new LignePanier(produit: produit, quantite: quantite, lot: idLot > 0 ? Lot.get(idLot) : null)
+
     		if(!panier.lignes) {
 	    		panier.lignes = []
     		}
-    		panier.lignes.add(ligne)
+    		
+            panier.lignes.add(ligne)
     	}
 
 		session.panier = panier

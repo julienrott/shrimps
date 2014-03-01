@@ -50,4 +50,37 @@ class ProduitController {
 		render view: 'edit', model: [produit: produit]
 	}
 
+	def addLot() {
+		def lot = new Lot(params)
+		if (!lot.save()) {
+			def msg = ""
+			lot.errors.each {
+				msg += it
+			}
+			flash.message = msg
+		}
+		
+		redirect action: 'edit', id: lot.produit.id
+	}
+
+	def updateLot() {
+		def lot = Lot.get(params.id)
+		lot.properties = params
+		if (!lot.save()) {
+			def msg = ""
+			lot.errors.each {
+				msg += it
+			}
+			flash.message = msg
+		}
+		
+		redirect action: 'edit', id: lot.produit.id
+	}
+
+	def deleteLot() {
+		def lot = Lot.get(params.id)
+		lot.delete()
+		redirect action: 'edit', id: lot.produit.id
+	}
+
 }

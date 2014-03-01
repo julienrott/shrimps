@@ -50,15 +50,36 @@
             <label for="fraisPort">Frais de port</label>
             <g:textField name="fraisPort" class="form-control" value="${formatNumber(number: produit.fraisPort, type: 'currency', currencyCode: 'EUR')}"/>
           </div>
-          <g:submitButton name="editProduitFormBtn" value="Enregistrer" class="btn btn-default"/>
+          <g:submitButton name="editProduitFormBtn" value="Enregistrer" class="btn btn-primary"/>
         </g:form>
       </div>
 
-      <div class="row">
-        <h2>Photos</h2>
-      </div>
-
       <g:if test="${produit.id > 0}">
+
+        <div class="row">
+          <h2>Lots</h2>
+
+          <g:each in="${produit?.lots}" var="lot">
+            <g:form name="updateLotForm${lot.id}" id="${lot.id}">
+              <g:textField name="titre" placeholder="titre" value="${lot.titre}"/>
+              <g:textField name="prix" placeholder="prix" value="${formatNumber(number: lot.prix, type: 'currency', currencyCode: 'EUR')}"/>
+              <g:submitButton name="_action_updateLot" value="Enregistrer" class="btn btn-primary"/>
+              <g:submitButton name="_action_deleteLot" value="Supprimer" class="btn btn-danger"/>
+            </g:form>
+          </g:each>
+
+          <g:form name="addLotForm">
+            <g:hiddenField name="produit.id" value="${produit.id}"/>
+            <g:textField name="titre" placeholder="titre"/>
+            <g:textField name="prix" placeholder="prix"/>
+            <g:submitButton name="_action_addLot" value="Ajouter" class="btn btn-primary"/>
+          </g:form>
+        </div>
+
+        <div class="row">
+          <h2>Photos</h2>
+        </div>
+
         <div class="row">
           <uploader:uploader id="uploader"
               url="${[controller:'photo', action:'upload']}"
@@ -74,6 +95,7 @@
         <g:javascript>
           $(document).ready(function() {loadPhotos();});
         </g:javascript>
+
       </g:if>
 
     </div>
