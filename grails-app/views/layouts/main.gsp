@@ -68,8 +68,9 @@
             <div class="well">
               <h4>ADMIN</h4>
               <ul class="nav nav-pills nav-stacked">
-                <li><g:link controller="categorie">Catégories</g:link></li>
+                <li><g:link controller="homePageSlider" action="edit">Accueil</g:link></li>
                 <li><g:link controller="homePageSlider">Photos Accueil</g:link></li>
+                <li><g:link controller="categorie">Catégories</g:link></li>
               </ul>
             </div>
           </sec:ifAllGranted>

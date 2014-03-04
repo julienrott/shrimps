@@ -1,9 +1,19 @@
+<%@page defaultCodec="none" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta content="main" name="layout">
 </head>
 <body>
+
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">${homePageSlider.accueil.decodeHTML()}
+	</div>
+
+	<div class="row">
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	</div>
 
 	<div class="row">
 		<div id="carousel-example-generic" class="carousel slide col-md-offset-1 col-md-10" data-ride="carousel" style="max-height: 300px;">
@@ -39,6 +49,47 @@
 				<span class="glyphicon glyphicon-chevron-right"></span>
 			</a>
 		</div>
+	</div>
+
+	<div class="row">
+		<p>&nbsp;</p>
+		<h3>Nos top ventes</h3>
+	</div>
+
+	<div class="row">
+
+		<div class="col-md-3">
+			<div class="col-md-offset-1"><h4>${homePageSlider.top1.titre}</h4></div>
+			
+			<g:if test="${homePageSlider.top1.photos[0]}">
+		      <img id="img_${homePageSlider.top1.photos[0]?.id}" class="img-responsive img-thumbnail col-md-9 col-md-offset-1" src="${createLink(controller:'photo', action:'showPhoto', id:"${homePageSlider.top1.photos[0]?.id}", params:[type:'small'])}"/>
+		    </g:if>
+		</div>
+		
+		<div class="col-md-3">
+			<div class="col-md-offset-1"><h4>${homePageSlider.top2.titre}</h4></div>
+			
+			<g:if test="${homePageSlider.top2.photos[0]}">
+		      <img id="img_${homePageSlider.top2.photos[0]?.id}" class="img-responsive img-thumbnail col-md-9 col-md-offset-1" src="${createLink(controller:'photo', action:'showPhoto', id:"${homePageSlider.top2.photos[0]?.id}", params:[type:'small'])}"/>
+		    </g:if>
+		</div>
+		
+		<div class="col-md-3">
+			<div class="col-md-offset-1"><h4>${homePageSlider.top3.titre}</h4></div>
+			
+			<g:if test="${homePageSlider.top3.photos[0]}">
+		      <img id="img_${homePageSlider.top3.photos[0]?.id}" class="img-responsive img-thumbnail col-md-9 col-md-offset-1" src="${createLink(controller:'photo', action:'showPhoto', id:"${homePageSlider.top3.photos[0]?.id}", params:[type:'small'])}"/>
+		    </g:if>
+		</div>
+		
+		<div class="col-md-3">
+			<div class="col-md-offset-1"><h4>${homePageSlider.top4.titre}</h4></div>
+			
+			<g:if test="${homePageSlider.top4.photos[0]}">
+		      <img id="img_${homePageSlider.top4.photos[0]?.id}" class="img-responsive img-thumbnail col-md-9 col-md-offset-1" src="${createLink(controller:'photo', action:'showPhoto', id:"${homePageSlider.top4.photos[0]?.id}", params:[type:'small'])}"/>
+		    </g:if>
+		</div>
+
 	</div>
 
 	<g:javascript>

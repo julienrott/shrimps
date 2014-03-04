@@ -93,4 +93,14 @@ class HomePageSliderController {
 		redirect action: "index"
 	}
 
+	def edit() {
+		[homePageSlider: HomePageSlider.get(1)]
+	}
+
+	def updateHomePage() {
+		def homePageSlider = HomePageSlider.get(1)
+		homePageSlider.properties = params
+		redirect action: "edit"
+	}
+
 }

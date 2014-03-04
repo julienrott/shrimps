@@ -2,7 +2,7 @@
 <div class="col-md-4">
 
   <div class="row">
-    <h3 class="col-md-11">${produit.titre.capitalize()}</h3>
+    <h4 class="col-md-11">${produit.titre.capitalize()}</h4>
   </div>
 
   <div class="row">

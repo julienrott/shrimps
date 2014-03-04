@@ -8,7 +8,7 @@
 <body>
   <div class="container-fluid">
     <div class="row">
-      <h2>${titre.capitalize()} <sec:ifAllGranted roles="ROLE_ADMIN"><g:link action="add" params="[categorie: "${titre}"]"><span class="glyphicon glyphicon-plus"></span></g:link></sec:ifAllGranted></h2>
+      <sec:ifAllGranted roles="ROLE_ADMIN"><h2>${titre.capitalize()} <g:link action="add" params="[categorie: "${titre}"]"><span class="glyphicon glyphicon-plus"></span></g:link></h2></sec:ifAllGranted>
     </div>
 
     <div class="row">
