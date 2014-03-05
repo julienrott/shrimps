@@ -1,3 +1,4 @@
+<%@ page import="fr.shrimpsforall.*" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +33,7 @@
 
           <div class="form-group">
             <label for="description">Description</label>
-            <g:textArea name="description" class="form-control" value="${produit.description}" rows="15"/>
+            <g:textArea name="description" class="form-control" value="${produit.description}" rows="10"/>
           </div>
 
           <div class="form-group">
@@ -48,8 +49,14 @@
 
           <div class="form-group">
             <label for="fraisPort">Frais de port</label>
-            <g:textField name="fraisPort" class="form-control" value="${formatNumber(number: produit.fraisPort, type: 'currency', currencyCode: 'EUR')}"/>
+            <g:select name="fraisPort" class="form-control" from="${FraisPort.list()}" optionKey="id" optionValue="titre" value="${produit.fraisPort?.id}" noSelection="['':'-Choisir un frais de port-']"/>
           </div>
+          
+          <div class="form-group">
+            <label for="poids">Poids en grammes</label>
+            <g:textField name="poids" class="form-control" value="${produit.poids}" placeholder="poids"/>
+          </div>
+
           <g:submitButton name="editProduitFormBtn" value="Enregistrer" class="btn btn-primary"/>
         </g:form>
       </div>

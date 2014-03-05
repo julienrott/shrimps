@@ -23,4 +23,8 @@ databaseChangeLog = {
 	include file: 'lots.groovy'
 
 	include file: 'accueil.groovy'
+
+	include file: 'fraisPort2.groovy'
+
+	include file: 'prix-plage.groovy'
 }

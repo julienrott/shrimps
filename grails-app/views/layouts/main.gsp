@@ -71,6 +71,7 @@
                 <li><g:link controller="homePageSlider" action="edit">Accueil</g:link></li>
                 <li><g:link controller="homePageSlider">Photos Accueil</g:link></li>
                 <li><g:link controller="categorie">Catégories</g:link></li>
+                <li><g:link controller="fraisPort">Frais de port</g:link></li>
               </ul>
             </div>
           </sec:ifAllGranted>

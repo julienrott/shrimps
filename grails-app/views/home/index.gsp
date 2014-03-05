@@ -7,12 +7,7 @@
 <body>
 
 	<div class="row">
-		<div class="col-md-offset-1 col-md-10">${homePageSlider.accueil.decodeHTML()}
-	</div>
-
-	<div class="row">
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
+		<div class="col-md-12">${homePageSlider.accueil.decodeHTML()}</div>
 	</div>
 
 	<div class="row">
@@ -52,7 +47,6 @@
 	</div>
 
 	<div class="row">
-		<p>&nbsp;</p>
 		<h3>Nos top ventes</h3>
 	</div>
 
