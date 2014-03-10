@@ -1,6 +1,6 @@
 package fr.shrimpsforall
 
-class PlageFraisPort {
+class PlageFraisPort implements Serializable {
 
 	long debut
 	long fin

@@ -1,6 +1,6 @@
 package fr.shrimpsforall
 
-class LignePanier {
+class LignePanier implements Serializable {
 	Produit produit
 	Lot lot
 	int quantite

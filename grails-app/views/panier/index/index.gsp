@@ -18,8 +18,6 @@
         <td>Quantité</td>
         <td>Prix unitaire</td>
         <td>Prix total</td>
-        <td>Frais de Port unitaire</td>
-        <td>Frais de Port total</td>
       </thead>
       <tbody>
         <g:each in="${session.panier?.lignes}">
@@ -41,25 +39,23 @@
             </td>
             <td>${formatNumber(number: it.lot ? it.lot.prix : it.produit.prix, type: 'currency', currencyCode: 'EUR')}</td>
             <td>${formatNumber(number: it.lot ? it.lot.prix * it.quantite : it.produit.prix * it.quantite, type: 'currency', currencyCode: 'EUR')}</td>
-            <td>${formatNumber(number: it.produit.fraisPort, type: 'currency', currencyCode: 'EUR')}</td>
-            <td>${formatNumber(number: it.produit.fraisPort * it.quantite, type: 'currency', currencyCode: 'EUR')}</td>
           </tr>
         </g:each>
-        <tr><td colspan="7"></td></tr>
+        <tr><td colspan="5"></td></tr>
         <tr class="info">
-          <td colspan="5"></td>
+          <td colspan="3"></td>
           <td>Total Produits</td>
-          <td>${formatNumber(number: session.panier?.totalProduits(), type: 'currency', currencyCode: 'EUR')}</td>
+          <td>${formatNumber(number: session.panier?.totaux()?.totalProduits, type: 'currency', currencyCode: 'EUR')}</td>
         </tr>
         <tr class="warning">
-          <td colspan="5"></td>
+          <td colspan="3"></td>
           <td>Total Frais de port</td>
-          <td>${formatNumber(number: session.panier?.totalFraisPort(), type: 'currency', currencyCode: 'EUR')}</td>
+          <td>${formatNumber(number: session.panier?.totaux()?.totalFraisPort, type: 'currency', currencyCode: 'EUR')}</td>
         </tr>
         <tr class="danger">
-          <td colspan="5"></td>
+          <td colspan="3"></td>
           <td>Total TTC</td>
-          <td>${formatNumber(number: session.panier?.totalTTC(), type: 'currency', currencyCode: 'EUR')}</td>
+          <td>${formatNumber(number: session.panier?.totaux()?.totalTTC, type: 'currency', currencyCode: 'EUR')}</td>
         </tr>
       </tbody>
     </table>

@@ -1,6 +1,6 @@
 package fr.shrimpsforall
 
-class FraisPort {
+class FraisPort implements Serializable {
 
 	String titre
 	String type

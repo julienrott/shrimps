@@ -66,6 +66,11 @@ grails.project.dependency.resolution = {
         compile ":spring-security-core:2.0-RC2"
         compile ":ajax-uploader:1.1"
         compile ":webflow:2.0.8.1"
+        if (grails.util.Environment.current == grails.util.Environment.PRODUCTION) {
+            compile ":grails-melody:1.49.2"
+        }
+
+        test ":build-test-data:2.1.2"
 
         // plugins needed at runtime but not for compilation
         runtime ":hibernate:3.6.10.7" // or ":hibernate4:4.1.11.6"
