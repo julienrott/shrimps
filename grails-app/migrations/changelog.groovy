@@ -27,4 +27,6 @@ databaseChangeLog = {
 	include file: 'fraisPort2.groovy'
 
 	include file: 'prix-plage.groovy'
+
+	include file: 'pageInfo.groovy'
 }

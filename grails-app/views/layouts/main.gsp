@@ -70,15 +70,20 @@
               <ul class="nav nav-pills nav-stacked">
                 <li><g:link controller="homePageSlider" action="edit">Accueil</g:link></li>
                 <li><g:link controller="homePageSlider">Photos Accueil</g:link></li>
-                <li><g:link controller="categorie">Catégories</g:link></li>
+                <li><g:link controller="categorie">Catégories de produits</g:link></li>
                 <li><g:link controller="fraisPort">Frais de port</g:link></li>
+                <li><g:link controller="pageInfo">Pages Info</g:link></li>
               </ul>
             </div>
           </sec:ifAllGranted>
 
           <ul class="nav nav-pills nav-stacked">
             <g:each in="${fr.shrimpsforall.Categorie.list(sort: 'position', order: 'asc')}">
-            	<li class="${titre?.equals(it.titre)?'active':''}"><g:link uri="/${it.titre}">${it.titre}</g:link></li>
+              <li class="${titre?.equals(it.titre)?'active':''}"><g:link uri="/${it.titre}">${it.titre}</g:link></li>
+            </g:each>
+            
+            <g:each in="${fr.shrimpsforall.PageInfo.list(sort: 'position', order: 'asc')}">
+            	<li class="${titre?.equals(it.titre)?'active':''}"><g:link uri="/infos/${it.titre}">${it.titre}</g:link></li>
             </g:each>
           </ul>
         </div>

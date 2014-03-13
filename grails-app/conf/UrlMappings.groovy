@@ -11,5 +11,6 @@ class UrlMappings {
         "500"(view:'/error')
 
         "/$categorieProduit"(controller: "produit", action: "list")
+        "/infos/$pageInfo"(controller: "pageInfo", action: "show")
 	}
 }
