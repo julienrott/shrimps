@@ -10,6 +10,7 @@ class Commande implements Serializable {
 	String complAdresse
 	String codePostal
 	String ville
+	double fraisPort
 
 	static belongsTo = [client: User]
 

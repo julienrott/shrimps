@@ -29,4 +29,10 @@ databaseChangeLog = {
 	include file: 'prix-plage.groovy'
 
 	include file: 'pageInfo.groovy'
+
+	include file: 'stock.groovy'
+
+	include file: 'lotInCommande.groovy'
+
+	include file: 'fraisPortFromLigneToCommande.groovy'
 }

@@ -57,6 +57,11 @@
             <g:textField name="poids" class="form-control" value="${produit.poids}" placeholder="poids"/>
           </div>
 
+          <div class="form-group">
+            <label for="stock">Stock</label>
+            <g:textField name="stock" class="form-control" value="${produit.stock}" placeholder="stock"/>
+          </div>
+
           <g:submitButton name="editProduitFormBtn" value="Enregistrer" class="btn btn-primary"/>
         </g:form>
       </div>

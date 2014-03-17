@@ -31,10 +31,10 @@ class HomeController {
 
     def newAccountFlow = {
     	showCreateAccount {
-            render view: 'newAccount'
-            on("createAccount").to "createAccount"
+            //render view: 'newAccount'
+            on("createNewAccount").to "createNewAccount"
         }
-        createAccount {
+        createNewAccount {
             action {
                 if( params.j_username2.equals(params.j_username2_confirm) && 
                     params.j_password2.equals(params.j_password2_confirm) ) {

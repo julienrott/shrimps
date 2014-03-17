@@ -86,6 +86,15 @@
             <a href="#" class="add-panier" data-id="${produit.id}" data-lots="${produit?.lots?.size() > 0}">Ajouter au panier</a>
           </h4>
         </div>
+
+        <g:if test="${produit.stock > -1}">
+          <div class="panel-body">
+            <g:if test="${produit.stock == 0}"><h4><span class="label label-danger">En rupture de stock</span></h4></g:if>
+            <g:if test="${produit.stock > 0 && produit.stock <= 5}"><h4><span class="label label-warning">Plus que quelques unités en stock</span></h4></g:if>
+            <g:if test="${produit.stock > 5}"><h4><span class="label label-success">En stock</span></h4></g:if>
+          </div>
+        </g:if>
+
       </div>
 
       <sec:ifAllGranted roles="ROLE_ADMIN">

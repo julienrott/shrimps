@@ -34,35 +34,31 @@
 		        <td>Quantité</td>
 		        <td>Prix unitaire</td>
 		        <td>Prix total</td>
-		        <td>Frais de Port unitaire</td>
-		        <td>Frais de Port total</td>
 		      </thead>
 		      <tbody>
 		        <g:each in="${session.panier?.lignes}">
 		          <tr>
-		            <td>${it.produit.titre}</td>
+		            <td>${it.lot?.titre} ${it.produit.titre}</td>
 		            <td>${it.quantite}</td>
-		            <td>${formatNumber(number: it.produit.prix, type: 'currency', currencyCode: 'EUR')}</td>
-		            <td>${formatNumber(number: it.produit.prix * it.quantite, type: 'currency', currencyCode: 'EUR')}</td>
-		            <td>${formatNumber(number: it.produit.fraisPort, type: 'currency', currencyCode: 'EUR')}</td>
-		            <td>${formatNumber(number: it.produit.fraisPort * it.quantite, type: 'currency', currencyCode: 'EUR')}</td>
+		            <td>${formatNumber(number: it.lot ? it.lot.prix : it.produit.prix, type: 'currency', currencyCode: 'EUR')}</td>
+            		<td>${formatNumber(number: it.lot ? it.lot.prix * it.quantite : it.produit.prix * it.quantite, type: 'currency', currencyCode: 'EUR')}</td>
 		          </tr>
 		        </g:each>
-		        <tr><td colspan="6"></td></tr>
+		        <tr><td colspan="4"></td></tr>
 		        <tr class="info">
-		          <td colspan="4"></td>
+		          <td colspan="2"></td>
 		          <td>Total Produits</td>
-		          <td>${formatNumber(number: session.panier?.totalProduits(), type: 'currency', currencyCode: 'EUR')}</td>
+		          <td>${formatNumber(number: session.panier?.totaux()?.totalProduits, type: 'currency', currencyCode: 'EUR')}</td>
 		        </tr>
 		        <tr class="warning">
-		          <td colspan="4"></td>
+		          <td colspan="2"></td>
 		          <td>Total Frais de port</td>
-		          <td>${formatNumber(number: session.panier?.totalFraisPort(), type: 'currency', currencyCode: 'EUR')}</td>
+		          <td>${formatNumber(number: session.panier?.totaux()?.totalFraisPort, type: 'currency', currencyCode: 'EUR')}</td>
 		        </tr>
 		        <tr class="danger">
-		          <td colspan="4"></td>
+		          <td colspan="2"></td>
 		          <td>Total TTC</td>
-		          <td>${formatNumber(number: session.panier?.totalTTC(), type: 'currency', currencyCode: 'EUR')}</td>
+		          <td>${formatNumber(number: session.panier?.totaux()?.totalTTC, type: 'currency', currencyCode: 'EUR')}</td>
 		        </tr>
 		      </tbody>
 		    </table>
@@ -98,10 +94,15 @@
 					<input type="text" size="4" autocomplete="off" data-encrypted-name="cvv" />
 	        	</div>
 				
-				<div class="row col-md-offset-10">
-        			<g:submitButton event="payer" class="btn btn-primary" value="Payer" id="paybtn"/>
+				<div class="row col-md-offset-9">
+        			<span class="label label-primary" id="labelPaiement" style="display: none;">Paiement en cours...</span>
+        			<g:submitButton event="payer" class="btn btn-primary col-md-9" value="Payer" name="paybtn"/>
         			<g:javascript>
-        				$("#paybtn").on("click", function(){$(this).prop("disabled",true);});
+        				//$("#_eventId_payer").on("click", function(){$(this).prop("disabled",true);});
+        				$("#_eventId_payer").on("click", function(){
+        					$("#_eventId_payer").hide();
+        					$("#labelPaiement").show();
+        				});
         			</g:javascript>
 	        	</div>
 			</form>

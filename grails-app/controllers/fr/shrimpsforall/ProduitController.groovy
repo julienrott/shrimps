@@ -5,10 +5,18 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(['ROLE_ADMIN'])
 class ProduitController {
 
+	def springSecurityService
+
     @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def list() {
     	log.debug params
+    	def isAdmin = springSecurityService.getCurrentUser()?.authorities?.authority?.contains("ROLE_ADMIN")?:false
+    	log.debug isAdmin
     	def produits = Produit.findAllByCategorie(Categorie.findByTitre(params.categorieProduit))
+    	def produitPhotos = Produit.findByTitre("photos")
+    	if (!isAdmin && produits.contains(produitPhotos)) {
+    		produits.remove(produitPhotos)
+    	}
     	log.debug produits
     	[titre: params.categorieProduit, produits: produits]
     }
@@ -32,7 +40,9 @@ class ProduitController {
 
 	def save() {
     	log.debug params
+		
 		def produit
+		
 		if (params.id) {
 			produit = Produit.get(params.id)
 			produit.properties = params
@@ -40,6 +50,7 @@ class ProduitController {
 		else {
 			produit = new Produit(params)
 		}
+		
 		if(!produit.save()) {
 			def msg = ""
 			produit.errors.each {
@@ -47,6 +58,7 @@ class ProduitController {
 			}
 			flash.message = msg
 		}
+		
 		render view: 'edit', model: [produit: produit]
 	}
 

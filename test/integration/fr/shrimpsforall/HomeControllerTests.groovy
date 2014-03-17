@@ -16,6 +16,8 @@ class HomeControllerTests extends WebFlowTestCase {
 		}
 		// register the original subflow
 		registerFlow("example/sub", new ExampleController().subFlow) */
+
+		//registerFlow("home/newAccount", new HomeController().newAccountFlow)
 	}
 
 	def getFlow() {

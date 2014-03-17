@@ -78,50 +78,84 @@ class PanierController {
         }
         payer {
             action {
-                BraintreeGateway gateway = new BraintreeGateway(
-                    Environment.SANDBOX,
-                    "g56253882wvypmk5",//"your_merchant_id",
-                    "tdx6wf4v8swb2xv4",//"your_public_key",
-                    "cce57d5cbf3e7c227a584f9c17b15bea"//"your_private_key"
-                )
+                try{
+                    println "start payer"
+                    println params
+                    println session.panier?.totaux()?.totalTTC
+                    println new BigDecimal(session.panier?.totaux()?.totalTTC)
+                    BraintreeGateway gateway = new BraintreeGateway(
+                        Environment.SANDBOX,
+                        "g56253882wvypmk5",//"your_merchant_id",
+                        "tdx6wf4v8swb2xv4",//"your_public_key",
+                        "cce57d5cbf3e7c227a584f9c17b15bea"//"your_private_key"
+                    )
+                    
+                    TransactionRequest transactionRequest = new TransactionRequest()
+                        .amount(new BigDecimal(session.panier?.totaux()?.totalTTC))
+                        .creditCard()
+                            .number(params.number)
+                            .cvv(params.cvv)
+                            .expirationMonth(params.month)
+                            .expirationYear(params.year)
+                            .done()
+                        .options()
+                            .submitForSettlement(true)
+                            .done();
 
-                TransactionRequest transactionRequest = new TransactionRequest()
-                    .amount(new BigDecimal("1000.00"))
-                    .creditCard()
-                        .number(params.number)
-                        .cvv(params.cvv)
-                        .expirationMonth(params.month)
-                        .expirationYear(params.year)
-                        .done()
-                    .options()
-                        .submitForSettlement(true)
-                        .done();
+                    Result<Transaction> result = gateway.transaction().sale(transactionRequest);
+                    
+                    if (result.isSuccess()) {
+                        User user =  User.findByUsername(springSecurityService.getCurrentUser().getUsername())
+                        Commande commande = new Commande(statut: "payée", client: user, fraisPort: session.panier?.totaux()?.totalFraisPort)
 
-                Result<Transaction> result = gateway.transaction().sale(transactionRequest);
-                
-                if (result.isSuccess()) {
-                    User user =  User.findByUsername(springSecurityService.getCurrentUser().getUsername())
-                    Commande commande = new Commande(statut: "payée", client: user)
-                    user.addToCommandes(commande)
+                        /*if (!commande.save()) {
+                            commande.errors.each {
+                                println it
+                            }
+                        }*/
 
-                    session.panier.lignes.each {
-                        LigneCommande ligneCommande = new LigneCommande(commande: commande, 
-                                                                        produit: it.produit, 
-                                                                        quantite: it.quantite,
-                                                                        prix: it.produit.prix,
-                                                                        fraisPort: it.produit.fraisPort,
-                                                                        titre: it.produit.titre)
-                        commande.addToLignes(ligneCommande)
+                        session.panier.lignes.each {
+                            def produit = Produit.get(it.produit?.id)
+                            def lot = Lot.get(it.lot?.id)
+
+                            LigneCommande ligneCommande = new LigneCommande(commande: commande, 
+                                                                            produit: produit, 
+                                                                            lot: lot,
+                                                                            quantite: it.quantite,
+                                                                            prix: it.lot ? it.lot.prix : it.produit.prix,
+                                                                            titre: "${it.lot?.titre} ${it.produit.titre}")
+                            /*if (!ligneCommande.save()) {
+                                ligneCommande.errors.each {
+                                    println it
+                                }
+                            }*/
+                            commande.addToLignes(ligneCommande)
+
+                            if(produit.stock > 0) {
+                                produit.stock -= 1
+                                produit.save()
+                            }
+                        }
+
+                        user.addToCommandes(commande)
+
+                        if (!user.save()) {
+                            user.errors.each {
+                                println it
+                            }
+                        }
+
+                        session.panier = null
+                        return success()
                     }
-
-                    commande.save(flush: true)
-                    user.save(flush: true)
-                    session.panier = null
-                    return success()
+                    else {
+                        flash.message = "Erreur lors du paiement, veuillez réessayer"
+                        log.error "Erreur lors du paiement, veuillez réessayer (${result.getMessage()})"
+                        return error()
+                    }
                 }
-                else {
-                    flash.message = "Erreur lors du paiement, veuillez réessayer"
-                    return error()
+                catch(Exception e) {
+                    log.error e
                 }
             }
             on("success").to "confirmation"

@@ -6,10 +6,11 @@ class LigneCommande implements Serializable {
 	String titre
 	int quantite
 	double prix
-	double fraisPort
+	Lot lot
 
 	static belongsTo = [commande: Commande]
 
     static constraints = {
+    	lot(nullable: true)
     }
 }

@@ -8,6 +8,7 @@ class Produit implements Serializable {
 	Categorie categorie
 	FraisPort fraisPort
 	long poids
+	int stock = -1
 
 	static hasMany = [photos: Photo, lots: Lot]
 

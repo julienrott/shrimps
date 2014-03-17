@@ -59,13 +59,13 @@ class Panier implements Serializable {
 
 		if(hasFraisPortColis) {
 			def fp = FraisPort.findByTitre("colis")
-			def plage = fp.plages.grep{it.debut <= poidsTotal && poidsTotal <= it.fin}
-			totalFraisPort += plage.prix
+			PlageFraisPort plage = fp.plages.grep{it.debut <= poidsTotal && poidsTotal <= it.fin}
+			totalFraisPort += plage?.first() ? plage.first().prix : 0
 		}
 		else if(hasFraisPortMiniMax) {
 			def fp = FraisPort.findByTitre("mini max")
-			def plage = fp.plages.grep{it.debut <= poidsTotal && poidsTotal <= it.fin}
-			totalFraisPort += plage.prix
+			PlageFraisPort plage = fp.plages.grep{it.debut <= poidsTotal && poidsTotal <= it.fin}
+			totalFraisPort += plage?.first() ? plage.first().prix : 0
 		}
 
 		def totalProduits = totalProduits()
