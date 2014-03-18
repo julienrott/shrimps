@@ -34,5 +34,5 @@
     	<g:passwordField name="j_password2_confirm" placeholder="Confirmer mot de passe" class="form-control"/>
 	</div>
 
-    <g:submitButton name="loginbtn" value="Créer mon compte" event="createAccount" class="btn btn-primary"/>
+    <g:submitButton name="loginbtn" value="Créer mon compte" event="createNewAccount" class="btn btn-primary"/>
 </g:form>
