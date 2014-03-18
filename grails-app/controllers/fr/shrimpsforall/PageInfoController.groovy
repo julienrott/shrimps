@@ -2,21 +2,20 @@ package fr.shrimpsforall
 
 import grails.plugin.springsecurity.annotation.Secured
 
-class PageInfoController {
+@Secured(['ROLE_ADMIN'])
+    class PageInfoController {
 
-    @Secured(['ROLE_ADMIN'])
     def index() {
     	log.debug params
     	[pagesInfo: PageInfo.list(sort: 'position'), pageInfo: PageInfo.get(params.id)]
     }
 
-    @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+    @Secured(['permitAll'])
     def show() {
     	def pageInfo = PageInfo.findByTitre(params.pageInfo)
     	[titre:pageInfo.titre, pageInfo: pageInfo]
     }
 
-    @Secured(['ROLE_ADMIN'])
     def save() {
     	def pageInfo
     	
@@ -39,7 +38,6 @@ class PageInfoController {
     	redirect action: 'index', model: [pageInfo: pageInfo]
     }
 
-    @Secured(['ROLE_ADMIN'])
     def delete() {
     	def pageInfo = PageInfo.get(params.id)
     	pageInfo.delete()
