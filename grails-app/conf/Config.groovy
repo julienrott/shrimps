@@ -170,7 +170,8 @@ grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'fr.shrimpsfora
 grails.plugin.springsecurity.authority.className = 'fr.shrimpsforall.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/':                              ['permitAll'],
-	'/index':                         ['permitAll'],
+    '/index':                         ['permitAll'],
+	'/infos/**':                      ['permitAll'],
 	'/index.gsp':                     ['permitAll'],
 	'/**/js/**':                      ['permitAll'],
 	'/**/css/**':                     ['permitAll'],
