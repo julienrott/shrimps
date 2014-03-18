@@ -57,16 +57,22 @@ class Panier implements Serializable {
 			}
 		}
 
+		def fp
+
 		if(hasFraisPortColis) {
-			def fp = FraisPort.findByTitre("colis")
-			PlageFraisPort plage = fp.plages.grep{it.debut <= poidsTotal && poidsTotal <= it.fin}
-			totalFraisPort += plage?.first() ? plage.first().prix : 0
+			fp = FraisPort.findByTitre("colis")
 		}
 		else if(hasFraisPortMiniMax) {
-			def fp = FraisPort.findByTitre("mini max")
-			PlageFraisPort plage = fp.plages.grep{it.debut <= poidsTotal && poidsTotal <= it.fin}
-			totalFraisPort += plage?.first() ? plage.first().prix : 0
+			fp = FraisPort.findByTitre("mini max")
 		}
+
+		def plages = PlageFraisPort.where{
+			eq "fraisPort", fp
+			lte "debut", poidsTotal
+			gte "fin", poidsTotal
+		}.list()
+		
+		totalFraisPort += plages.size() > 0 ? plages.first().prix : 0
 
 		def totalProduits = totalProduits()
 		def totalTTC = totalProduits + totalFraisPort
