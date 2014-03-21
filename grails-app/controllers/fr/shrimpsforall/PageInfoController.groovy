@@ -12,8 +12,8 @@ import grails.plugin.springsecurity.annotation.Secured
 
     @Secured(['permitAll'])
     def show() {
-    	def pageInfo = PageInfo.findByTitre(params.pageInfo)
-    	[titre:pageInfo.titre, pageInfo: pageInfo]
+    	def pageInfo = PageInfo.findByTitre(params.id)
+    	[titre: pageInfo.titre, pageInfo: pageInfo]
     }
 
     def save() {

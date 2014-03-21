@@ -7,7 +7,7 @@
 
   <div class="row">
     <g:if test="${produit.photos[0]}">
-      <img id="img_${produit.photos[0]?.id}" class="img-responsive img-thumbnail col-md-9 col-md-offset-1" src="${createLink(controller:'photo', action:'showPhoto', id:"${produit.photos[0]?.id}", params:[type:'small'])}"/>
+      <r:img id="img_${produit.photos[0]?.id}" class="img-responsive img-thumbnail col-md-9 col-md-offset-1" uri="${createLink(controller:'photo', action:'showPhoto', id:"${produit.photos[0]?.id}", params:[type:'small'], absolute: true)}"/>
     </g:if>
   </div>
 
@@ -89,9 +89,10 @@
 
         <g:if test="${produit.stock > -1}">
           <div class="panel-body">
-            <g:if test="${produit.stock == 0}"><h4><span class="label label-danger">En rupture de stock</span></h4></g:if>
-            <g:if test="${produit.stock > 0 && produit.stock <= 5}"><h4><span class="label label-warning">Plus que quelques unités en stock</span></h4></g:if>
-            <g:if test="${produit.stock > 5}"><h4><span class="label label-success">En stock</span></h4></g:if>
+            <g:if test="${produit.stock == 0}"><h4><span class="label label-danger">En rupture</span></h4></g:if>
+            <g:if test="${produit.stock > 0 && produit.stock <= 5}"><h4><span class="label label-warning">Stock limité</span></h4></g:if>
+            <g:if test="${produit.stock > 5 && produit.stock <= 10}"><h4><span class="label label-success">En stock</span></h4></g:if>
+            <g:if test="${produit.stock > 10}"><h4><span class="label label-primary">Coup de coeur</span></h4></g:if>
           </div>
         </g:if>
 

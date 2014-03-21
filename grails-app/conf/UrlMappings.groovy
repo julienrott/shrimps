@@ -10,7 +10,7 @@ class UrlMappings {
         "/"(controller:"home", action: 'index')
         "500"(view:'/error')
 
-        "/infos/$pageInfo"(controller: "pageInfo", action: "show")
+        "/infos/$id"(controller: "pageInfo", action: "show")
         "/$categorieProduit"(controller: "produit", action: "list")
 	}
 }
