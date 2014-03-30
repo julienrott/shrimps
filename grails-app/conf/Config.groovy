@@ -108,10 +108,18 @@ environments {
 environments {
     development {
         grails.logging.jul.usebridge = true
+        paypal.url = "https://www.sandbox.paypal.com/cgi-bin/webscr"
+        paypal.receiver = "julien.rott-facilitator@gmail.com"
+        paypal.notify.url = "panier/paypalresponse"
+        paypal.return.url = "panier/merci"
     }
     production {
         grails.logging.jul.usebridge = false
         // TODO: grails.serverURL = "http://www.changeme.com"
+        paypal.url = "https://www.paypal.com/cgi-bin/webscr"
+        paypal.receiver = "shrimpsforall@outlook.fr"
+        paypal.notify.url = "panier/paypalresponse"
+        paypal.return.url = "panier/merci"
     }
 }
 
