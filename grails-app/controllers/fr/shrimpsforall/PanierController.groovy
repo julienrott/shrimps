@@ -6,8 +6,6 @@ import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 
-import com.braintreegateway.*
-
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class PanierController {
 
@@ -16,6 +14,51 @@ class PanierController {
 
     def index() {
         redirect action: 'index'
+    }
+
+    def merci() {}
+
+    def paypalresponse() {
+        log.debug request.characterEncoding
+        log.debug params
+        //def url = grailsApplication.config.paypal.url + "?cmd=_notify-validate&" + params.collect { it }.join('&')
+        //log.debug url
+        //log.debug url.toURL().getText(request.characterEncoding)
+        //log.debug url.toURL().getText(params.charset)
+
+    def urlString = grailsApplication.config.paypal.url
+    def queryString = "cmd=_notify-validate&" + params.collect { it }.join('&')
+
+    def url = new URL(urlString)
+    def connection = url.openConnection()
+    connection.setRequestMethod("POST")
+    connection.doOutput = true
+
+    def writer = new OutputStreamWriter(connection.outputStream)
+    writer.write(queryString)
+    writer.flush()
+    writer.close()
+    connection.connect()
+
+    def recaptchaResponse = connection.content.text
+    log.debug(recaptchaResponse)
+
+        def commande = Commande.get(params.invoice)
+        
+        if(params.receiver_email != grailsApplication.config.paypal.receiver) {
+            log.error "pas le bon receiver"
+            log.error params
+            return
+        }
+
+        if (commande) {
+            if (params.payment_status == "Completed") {
+                commande.statut = "payée"
+            }
+            if (params.payment_status == "Pending") {
+                commande.statut = "paiement en validation"
+            }
+        }
     }
 
     def indexFlow = {
@@ -60,109 +103,52 @@ class PanierController {
         toAdresse {
             action {
                 User user = User.findByUsername(springSecurityService.getCurrentUser().getUsername())
-                //[user: user]
+                
+                Commande commande = new Commande(
+                    nom: user.nom,
+                    prenom: user.prenom,
+                    adresse: user.adresse.ligne1,
+                    complAdresse: user.adresse.ligne2,
+                    codePostal: user.adresse.codePostal,
+                    ville: user.adresse.ville,
+                    statut: "création",
+                    client: user,
+                    fraisPort: session.panier?.totaux()?.totalFraisPort)
+
+                session.panier.lignes.each {
+                    def produit = Produit.get(it.produit?.id)
+                    def lot = Lot.get(it.lot?.id)
+
+                    LigneCommande ligneCommande = new LigneCommande(commande: commande, 
+                                                                    produit: produit, 
+                                                                    lot: lot,
+                                                                    quantite: it.quantite,
+                                                                    prix: it.lot ? it.lot.prix : it.produit.prix,
+                                                                    titre: "${it.lot?.titre} ${it.produit.titre}")
+                    
+                    commande.addToLignes(ligneCommande)
+                }
+
+                commande.save()
+
+                user.addToCommandes(commande)
+
+                if (!user.save()) {
+                    user.errors.each {
+                        println it
+                    }
+                }
+
                 conversation.user = user
+                conversation.commande = commande
+                session.panier = null
             }
             
             on("success").to "adresse"
         }
         adresse {
-            subflow controller: "home", action: "adresse"
-            on("success") {
-                [user: User.findByUsername(springSecurityService.getCurrentUser().getUsername())]
-            }.to "showPaiement"
+            redirect controller: "commande", action: "details", id: conversation.commande.id
         }
-        showPaiement {
-            on("retour").to "toAdresse"
-            on("payer").to "payer"
-        }
-        payer {
-            action {
-                try{
-                    println "start payer"
-                    println params
-                    println session.panier?.totaux()?.totalTTC
-                    println new BigDecimal(session.panier?.totaux()?.totalTTC)
-                    BraintreeGateway gateway = new BraintreeGateway(
-                        Environment.SANDBOX,
-                        "g56253882wvypmk5",//"your_merchant_id",
-                        "tdx6wf4v8swb2xv4",//"your_public_key",
-                        "cce57d5cbf3e7c227a584f9c17b15bea"//"your_private_key"
-                    )
-                    
-                    TransactionRequest transactionRequest = new TransactionRequest()
-                        .amount(new BigDecimal(session.panier?.totaux()?.totalTTC))
-                        .creditCard()
-                            .number(params.number)
-                            .cvv(params.cvv)
-                            .expirationMonth(params.month)
-                            .expirationYear(params.year)
-                            .done()
-                        .options()
-                            .submitForSettlement(true)
-                            .done();
-
-                    Result<Transaction> result = gateway.transaction().sale(transactionRequest);
-                    
-                    if (result.isSuccess()) {
-                        User user =  User.findByUsername(springSecurityService.getCurrentUser().getUsername())
-                        Commande commande = new Commande(statut: "payée", client: user, fraisPort: session.panier?.totaux()?.totalFraisPort)
-
-                        /*if (!commande.save()) {
-                            commande.errors.each {
-                                println it
-                            }
-                        }*/
-
-                        session.panier.lignes.each {
-                            def produit = Produit.get(it.produit?.id)
-                            def lot = Lot.get(it.lot?.id)
-
-                            LigneCommande ligneCommande = new LigneCommande(commande: commande, 
-                                                                            produit: produit, 
-                                                                            lot: lot,
-                                                                            quantite: it.quantite,
-                                                                            prix: it.lot ? it.lot.prix : it.produit.prix,
-                                                                            titre: "${it.lot?.titre} ${it.produit.titre}")
-                            /*if (!ligneCommande.save()) {
-                                ligneCommande.errors.each {
-                                    println it
-                                }
-                            }*/
-                            commande.addToLignes(ligneCommande)
-
-                            if(produit.stock > 0) {
-                                produit.stock -= 1
-                                produit.save()
-                            }
-                        }
-
-                        user.addToCommandes(commande)
-
-                        if (!user.save()) {
-                            user.errors.each {
-                                println it
-                            }
-                        }
-
-                        session.panier = null
-                        return success()
-                    }
-                    else {
-                        flash.message = "Erreur lors du paiement, veuillez réessayer"
-                        log.error "Erreur lors du paiement, veuillez réessayer (${result.getMessage()})"
-                        return error()
-                    }
-                }
-                catch(Exception e) {
-                    log.error e
-                }
-            }
-            on("success").to "confirmation"
-            on("error").to "showPaiement"
-            on(Exception).to "showPaiement"
-        }
-        confirmation()
     }
 
     def vider() {

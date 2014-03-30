@@ -35,4 +35,6 @@ databaseChangeLog = {
 	include file: 'lotInCommande.groovy'
 
 	include file: 'fraisPortFromLigneToCommande.groovy'
+
+	include file: 'dateCreatedInPhotos.groovy'
 }

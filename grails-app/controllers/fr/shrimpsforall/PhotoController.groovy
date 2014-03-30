@@ -69,29 +69,32 @@ class PhotoController {
 
 	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def showPhoto() {
-		//cache shared:true, neverExpires:true
+		cache shared:true, neverExpires:true
 		
 		try {
 			
 			def photo = photoService.get( params.id )
 
-			/*if(request.getHeader("If-Modified-Since"))
+			log.debug request.getHeader("If-Modified-Since")
+
+			if(request.getHeader("If-Modified-Since"))
 			{
 				def reqDate = new Date(request.getHeader("If-Modified-Since"))
-				if (photo.lastUpdated < reqDate)
+				if (photo.dateCreated < reqDate)
 				{
 					render(status: 304)
 				}
-			}*/
-
-			switch (params.type)
-			{
-				case "full" : response.outputStream << photo.data; break;// write the image to the outputstream
-				case "small" : response.outputStream << photo.data_small; break;
-				case "slider" : response.outputStream << photo.data_slider; break;
-				case "small_homepage" : response.outputStream << photo.data_small_homepage; break;
 			}
-			response.outputStream.flush()
+			else {
+				switch (params.type)
+				{
+					case "full" : response.outputStream << photo.data; break;// write the image to the outputstream
+					case "small" : response.outputStream << photo.data_small; break;
+					case "slider" : response.outputStream << photo.data_slider; break;
+					case "small_homepage" : response.outputStream << photo.data_small_homepage; break;
+				}
+				response.outputStream.flush()
+			}
 			
 		} catch(Exception e) {
 			log.error "showPhoto : ${e}"

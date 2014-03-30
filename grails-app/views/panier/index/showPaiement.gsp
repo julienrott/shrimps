@@ -18,14 +18,15 @@
 		<div>&nbsp;</div>
 
 		<div class="row">
-
 			<h3>Mon adresse</h3>
 
 			<p>${user?.nom} ${user?.prenom}</p>
 			<p>${user?.adresse?.ligne1}</p>
 			<p>${user?.adresse?.ligne2}</p>
 			<p>${user?.adresse?.codePostal} ${user?.adresse?.ville}</p>
+		</div>
 
+		<div class="row">
 			<h3>Ma commande</h3>
 
 		    <table class="table table-striped">
@@ -62,59 +63,46 @@
 		        </tr>
 		      </tbody>
 		    </table>
+		</div>
 
-			<g:link event="retour">
-				<button class="btn btn-warning  col-md-offset-10">Modifier</button>
-			</g:link>
-
-			<h3>Paiement</h3>
-
+		<div class="row">
 			<g:if test="${message}">
 				<div class="alert alert-danger">${message}</div>
 			</g:if>
 
-			<form method="POST" id="braintree-payment-form" class="col-md-6">
+			
+			<g:link event="retour" class="col-md-offset-8 col-md-1">
+				<button class="btn btn-warning  col-md-offset-10">Modifier</button>
+			</g:link>
 
-				<div class="row">
-					<div class="form-group">
-		            	<label>Numéro de carte</label>
-		        		<input type="text" placeholder="Numéro de carte" class="form-control" autocomplete="off" data-encrypted-name="number"/>
-		        	</div>
-	        	</div>
-				
-				<div class="row">
-					<div class="form-group">
-		            	<label>Date d'expiration (MM/AAAA)</label>
-						<input type="text" size="2" name="month" /> / <input type="text" size="4" name="year" />
-		        	</div>
-	        	</div>
-				
-				<div class="row">
-					<label>Code de vérification</label>
-					<input type="text" size="4" autocomplete="off" data-encrypted-name="cvv" />
-	        	</div>
-				
-				<div class="row col-md-offset-9">
-        			<span class="label label-primary" id="labelPaiement" style="display: none;">Paiement en cours...</span>
-        			<g:submitButton event="payer" class="btn btn-primary col-md-9" value="Payer" name="paybtn"/>
-        			<g:javascript>
-        				//$("#_eventId_payer").on("click", function(){$(this).prop("disabled",true);});
-        				$("#_eventId_payer").on("click", function(){
-        					$("#_eventId_payer").hide();
-        					$("#labelPaiement").show();
-        				});
-        			</g:javascript>
-	        	</div>
+			<form action="${grailsApplication.config.paypal.url}" method="post" class="col-md-offset-1 col-md-1">
+
+				<!-- Identify your business so that you can collect the payments. -->
+				<input type="hidden" name="business" value="${grailsApplication.config.paypal.receiver}">
+
+				<!-- Specify a Buy Now button. -->
+				<input type="hidden" name="cmd" value="_xclick">
+
+				<input type="hidden" name="notify_url" value="${grailsApplication.config.paypal.notify.url}">
+				<input type="hidden" name="return" value="${grailsApplication.config.paypal.return.url}">
+				<input type="hidden" name="invoice" value="${}">
+				<input type="hidden" name="no_note" value="1">
+				<input type="hidden" name="no_shipping" value="1">
+				<input type="hidden" name="address_override" value="1">
+				<input type="hidden" name="currency_code" value="EUR">
+
+				<!-- Specify details about the item that buyers will purchase. -->
+				<input type="hidden" name="item_name" value="commande">
+				<input type="hidden" name="amount" value="${session.panier?.totaux()?.totalTTC}">
+				<input type="hidden" name="currency_code" value="EUR">
+
+				<!-- Display the payment button. -->
+				<input type="image" name="submit" border="0" src="https://www.paypalobjects.com/fr_FR/i/btn/btn_paynow_LG.gif" alt="PayPal - The safer, easier way to pay online">
+				<img alt="" border="0" width="1" height="1" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" >
+
 			</form>
-
+			
 		</div>
 	</div>
-
-	<script src="//js.braintreegateway.com/v1/braintree.js"></script>
-	<g:javascript>
-		var braintree = Braintree.create("MIIBCgKCAQEA0uQ/6LYZnlgz9UaPaZlA5nc3z5IyFaxpeNV3mOpIwQcGVS5+uA4699O2L2mciXT7Be55yEDhTWM/bN0JK9Zm35TGtUBb9AuP0Oa7lw/whwze3B4Rej/A5uEFQugYhTJL/7EVPq9kDvaKmB8FYp3L582mYRUn+oQyEJC4L5SkcHAck03e+BD18Ju+TnmH6wIK44iY/Vi7tgfcOcLqJ/SDh3WicqFQxNRrMNKIcmR+MQyZwTX1bX1vZf4RpB9kDPOpAjo6H0CkFaFiLr8j4qIUiv2cL2QhOEZmvAMeI2AOYvHMpQX3fwvHHv/n1utX72qunMnfDLsXjI/eiY5my9by4QIDAQAB");
-     	braintree.onSubmitEncryptForm('braintree-payment-form');
-	</g:javascript>
-
 </body>
 </html>

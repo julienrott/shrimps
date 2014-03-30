@@ -17,7 +17,7 @@ class Panier implements Serializable {
 			//totalProduits += it.lot ? it.lot.prix * it.quantite : it.produit.prix * it.quantite
 			totalProduits += it.quantite * (it.lot ? it.lot.prix : it.produit.prix)
 		}
-		totalProduits.round(2)
+		totalProduits > 0 ? totalProduits.round(2) : 0
 	}
 
 	def totaux() {

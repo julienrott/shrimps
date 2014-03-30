@@ -18,7 +18,7 @@ class Commande implements Serializable {
 
     static constraints = {
     	dateCreated(nullable: true)
-    	statut(inList: ["payée", "expédiée"])
+    	statut(inList: ["création", "paiement en validation", "payée", "expédiée"])
     	nom(nullable: true)
     	prenom(nullable: true)
     	adresse(nullable: true)
@@ -26,4 +26,26 @@ class Commande implements Serializable {
     	codePostal(nullable: true)
     	ville(nullable: true)
     }
+
+    
+	def totalProduits() {
+		def totalProduits = 0
+		lignes.each {
+			//totalProduits += it.lot ? it.lot.prix * it.quantite : it.produit.prix * it.quantite
+			totalProduits += it.quantite * (it.lot ? it.lot.prix : it.produit.prix)
+		}
+		totalProduits.round(2)
+	}
+
+
+    def totaux() {
+		lignes.each{
+			it.produit = Produit.get(it.produit.id)
+		}
+
+		def totalProduits = totalProduits()
+		def totalTTC = totalProduits + fraisPort
+
+		[totalProduits: totalProduits, totalTTC: totalTTC]
+	}
 }

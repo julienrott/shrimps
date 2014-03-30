@@ -36,7 +36,9 @@
 
           <div id="logindiv" class="navbar-right">
             <sec:ifLoggedIn>
-               Bonjour <sec:username/> (<g:link uri='/j_spring_security_logout'>Se Déconnecter</g:link>)
+               Bonjour <sec:username/>
+               <g:link controller="commande" action="mescommandes">Mes commandes</g:link>
+               (<g:link uri='/j_spring_security_logout'>Se Déconnecter</g:link>)
                <sec:ifAllGranted roles="ROLE_ADMIN"><button onclick="TogetherJS(this); return false;">Start TogetherJS</button></sec:ifAllGranted>
             </sec:ifLoggedIn>
             <sec:ifNotLoggedIn>
@@ -73,6 +75,8 @@
                 <li><g:link controller="categorie">Catégories de produits</g:link></li>
                 <li><g:link controller="fraisPort">Frais de port</g:link></li>
                 <li><g:link controller="pageInfo">Pages Info</g:link></li>
+                <li><g:link controller="commande" action="aexpedier">Commandes à expédier</g:link></li>
+                <li><g:link controller="commande" action="expediees">Commandes expédiées</g:link></li>
               </ul>
             </div>
           </sec:ifAllGranted>
@@ -81,6 +85,8 @@
             <g:each in="${fr.shrimpsforall.Categorie.list(sort: 'position', order: 'asc')}">
               <li class="${titre?.equals(it.titre)?'active':''}"><g:link uri="/${it.titre}">${it.titre}</g:link></li>
             </g:each>
+
+            <hr>
             
             <g:each in="${fr.shrimpsforall.PageInfo.list(sort: 'position', order: 'asc')}">
             	<li class="${titre?.equals(it.titre)?'active':''}"><g:link uri="/infos/${it.titre}">${it.titre}</g:link></li>

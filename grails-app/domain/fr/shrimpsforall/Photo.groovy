@@ -2,6 +2,7 @@ package fr.shrimpsforall
 
 class Photo {
 	
+	Date dateCreated = new Date()
 	String titre
 	byte[] data
 	byte[] data_small
