@@ -185,6 +185,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/css/**':                     ['permitAll'],
 	'/**/images/**':                  ['permitAll'],
     '/**/favicon.ico':                ['permitAll'],
-    '/ajaxUpload/upload':             ['ROLE_ADMIN']
+    '/ajaxUpload/upload':             ['ROLE_ADMIN'],
+    '/console/**':                    ['ROLE_ADMIN']
 ]
 

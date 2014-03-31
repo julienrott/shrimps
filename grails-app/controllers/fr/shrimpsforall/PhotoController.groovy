@@ -69,7 +69,7 @@ class PhotoController {
 
 	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def showPhoto() {
-		cache shared:true, neverExpires:true
+		//cache shared:true, neverExpires:true
 		
 		try {
 			
