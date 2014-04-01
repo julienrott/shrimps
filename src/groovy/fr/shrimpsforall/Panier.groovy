@@ -77,6 +77,6 @@ class Panier implements Serializable {
 		def totalProduits = totalProduits()
 		def totalTTC = totalProduits + totalFraisPort
 
-		[totalProduits: totalProduits, totalFraisPort: totalFraisPort, totalTTC: totalTTC, poidsTotal: poidsTotal]
+		[totalProduits: totalProduits, totalFraisPort: totalFraisPort.round(2), totalTTC: totalTTC.round(2), poidsTotal: poidsTotal]
 	}
 }

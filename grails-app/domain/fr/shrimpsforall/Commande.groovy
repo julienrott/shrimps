@@ -46,6 +46,6 @@ class Commande implements Serializable {
 		def totalProduits = totalProduits()
 		def totalTTC = totalProduits + fraisPort
 
-		[totalProduits: totalProduits, totalTTC: totalTTC]
+		[totalProduits: totalProduits, totalTTC: totalTTC.round(2)]
 	}
 }
