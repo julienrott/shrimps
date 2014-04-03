@@ -26,22 +26,22 @@ class PanierController {
         //log.debug url.toURL().getText(request.characterEncoding)
         //log.debug url.toURL().getText(params.charset)
 
-    def urlString = grailsApplication.config.paypal.url
-    def queryString = "cmd=_notify-validate&" + params.collect { it }.join('&')
+        def urlString = grailsApplication.config.paypal.url
+        def queryString = "cmd=_notify-validate&" + params.collect { it }.join('&')
 
-    def url = new URL(urlString)
-    def connection = url.openConnection()
-    connection.setRequestMethod("POST")
-    connection.doOutput = true
+        def url = new URL(urlString)
+        def connection = url.openConnection()
+        connection.setRequestMethod("POST")
+        connection.doOutput = true
 
-    def writer = new OutputStreamWriter(connection.outputStream)
-    writer.write(queryString)
-    writer.flush()
-    writer.close()
-    connection.connect()
+        def writer = new OutputStreamWriter(connection.outputStream)
+        writer.write(queryString)
+        writer.flush()
+        writer.close()
+        connection.connect()
 
-    def recaptchaResponse = connection.content.text
-    log.debug(recaptchaResponse)
+        def recaptchaResponse = connection.content.text
+        log.debug(recaptchaResponse)
 
         def commande = Commande.get(params.invoice)
         
@@ -52,13 +52,17 @@ class PanierController {
         }
 
         if (commande) {
-            if (params.payment_status == "Completed") {
+            commande.paypalTransactionId = params.txn_id
+            
+            if (params.payment_status == "Completed" && commande.statut != "expédiée") {
                 commande.statut = "payée"
             }
             if (params.payment_status == "Pending") {
                 commande.statut = "paiement en validation"
             }
         }
+
+        render 200
     }
 
     def indexFlow = {

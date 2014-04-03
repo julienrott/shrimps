@@ -37,4 +37,6 @@ databaseChangeLog = {
 	include file: 'fraisPortFromLigneToCommande.groovy'
 
 	include file: 'dateCreatedInPhotos.groovy'
+
+	include file: 'paypalTransactionId.groovy'
 }

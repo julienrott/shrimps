@@ -11,6 +11,7 @@ class Commande implements Serializable {
 	String codePostal
 	String ville
 	double fraisPort
+	String paypalTransactionId
 
 	static belongsTo = [client: User]
 
@@ -25,6 +26,7 @@ class Commande implements Serializable {
     	complAdresse(nullable: true)
     	codePostal(nullable: true)
     	ville(nullable: true)
+    	paypalTransactionId(nullable: true)
     }
 
     

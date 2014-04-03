@@ -90,8 +90,8 @@
 				<!-- Specify a Buy Now button. -->
 				<input type="hidden" name="cmd" value="_xclick">
 
-				<input type="hidden" name="notify_url" value="${createLink(absolute: true, controller: 'panier', action: 'paypalresponse')}">
-				<input type="hidden" name="return" value="${createLink(absolute: true, controller: 'panier', action: 'merci')}">
+				<input type="hidden" name="notify_url" value="${createLink(absolute: true, controller: 'panier', action: 'paypalresponse').replaceAll(/\?.*$/, "")}">
+				<input type="hidden" name="return" value="${createLink(absolute: true, controller: 'panier', action: 'merci').replaceAll(/\?.*$/, "")}">
 				<input type="hidden" name="invoice" value="${commande.id}">
 				<input type="hidden" name="no_note" value="1">
 				<input type="hidden" name="no_shipping" value="1">
