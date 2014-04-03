@@ -110,6 +110,14 @@ class CommandeController {
     }
 
     @Secured("ROLE_ADMIN")
+    def encreation() {
+        def commandes = Commande.createCriteria().list(sort: 'dateCreated', order: 'asc'){
+            eq "statut", "création"
+        }
+        render view: "listeCommandes", model: [commandes: commandes, titre: "Commandes en création"]
+    }
+
+    @Secured("ROLE_ADMIN")
     def aexpedier() {
         def commandes = Commande.createCriteria().list(sort: 'dateCreated', order: 'asc'){
             eq "statut", "payée"
