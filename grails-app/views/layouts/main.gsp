@@ -16,6 +16,7 @@
 			var urlContext = "${createLink(uri: "/")}";
 		</g:javascript>
 		<r:layoutResources />
+    <meta name="google-site-verification" content="VHf7mW_HJu8G2VfN7ZhaHihw95FnLcR-hZsCQUK9ob8" />
 	</head>
 	<body>
 
