@@ -12,6 +12,7 @@ class UrlMappings {
 
         "/infos/$id"(controller: "pageInfo", action: "show")
         "/console"(controller: "console")
+        "/sitemap"(controller: "sitemap")
         "/$categorieProduit"(controller: "produit", action: "list")
 	}
 }
