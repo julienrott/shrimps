@@ -83,6 +83,7 @@
 
 	<g:if test="${commande.statut == "création" && canPay}">
 		<div class="row">
+			<div>Vous avez la possibilité de payer votre commande en envoyant un chèque à l'adresse : Shrimpsforall, 9 rue Sengenwald, 67000 STRASBOURG. Votre commande sera traitée dès réception de celui-ci.</div>
 			<form action="${grailsApplication.config.paypal.url}" method="post" class="col-md-offset-10 col-md-1">
 				<!-- Identify your business so that you can collect the payments. -->
 				<input type="hidden" name="business" value="${grailsApplication.config.paypal.receiver}">

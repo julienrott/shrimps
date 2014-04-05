@@ -12,7 +12,7 @@
 		<g:layoutHead/>
 		<g:javascript library="application"/>
 		<g:javascript>
-		//var urlContext = '${grailsApplication.config.grails.serverURL}';
+		  //var urlContext = '${grailsApplication.config.grails.serverURL}';
 			var urlContext = "${createLink(uri: "/")}";
 		</g:javascript>
 		<r:layoutResources />
@@ -20,7 +20,22 @@
 	</head>
 	<body>
 
-		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div style="display: none;" itemscope
+        itemtype="http://schema.org/LocalBusiness">
+      
+      <span itemprop="name">Shrimps For All</span>
+      <span itemprop="description">Shrimps For All (SFA, shrimpsforall) vous propose un large choix de crevettes, nourritures haut de gamme et matériels avec en exclusités des produits inédits sur notre site web.</span>
+      <div itemprop="address" itemscope
+          itemtype="http://schema.org/PostalAddress">
+        <span itemprop="streetAddress">9 rue Sengenwald</span>
+        <span itemprop="addressLocality">STRASBOURG</span>
+        <span itemprop="postalCode">67000</span>
+        <span itemprop="addressCountry">France</span>
+      </div>
+      <span itemprop="telephone">06 52 45 44 55</span>
+    </div>
+
+		<div class="navbar navbar-default navbar-fixed-top top-header" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -30,10 +45,15 @@
             <span class="icon-bar"></span>
           </button>
           <g:link uri="/">
-            <r:img dir="images" file="logo.jpg" height="100"/>
+            <r:img dir="images" file="logo.jpg" width="120" height="100" class="img col-md- img-thumbnail header-logo"/>
           </g:link>
         </div>
-        <div class="navbar-collapse collapse" style="background: white;">
+
+        <div class="navbar-collapse collapse">
+
+          <div class="col-md-offset-1 col-md-3 header-banner">
+            <r:img dir="images" file="baniere_plate.png" height="70"/>
+          </div>
 
           <div id="logindiv" class="navbar-right">
             <sec:ifLoggedIn>
@@ -62,8 +82,8 @@
       </div>
 
     </div>
-		
-		<div class="container container-main">
+    
+    <div class="container container-main">
       <div class="row">
 
         <div class="col-md-2">
@@ -91,16 +111,19 @@
             <hr>
             
             <g:each in="${fr.shrimpsforall.PageInfo.list(sort: 'position', order: 'asc')}">
-            	<li class="${titre?.equals(it.titre)?'active':''}"><g:link uri="/infos/${it.titre}">${it.titre}</g:link></li>
+              <li class="${titre?.equals(it.titre)?'active':''}"><g:link uri="/infos/${it.titre}">${it.titre}</g:link></li>
             </g:each>
           </ul>
         </div>
 
-        <div class="col-md-10">
+        <div class="col-md-8 border-left">
 
-        	<g:layoutBody/>
+          <g:layoutBody/>
           
         </div>
+        
+        <iframe class="col-md-2" src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fshrimpsforall&amp;width&amp;height=590&amp;colorscheme=light&amp;show_faces=true&amp;header=true&amp;stream=true&amp;show_border=true&amp;appId=305753002839441" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:590px;" allowTransparency="true"></iframe>
+        
 
       </div>
 
@@ -126,9 +149,19 @@
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
         ga('create', 'UA-3781580-5', 'shrimpsforall.fr');
+        ga('require', 'displayfeatures');
         ga('send', 'pageview');
       </g:javascript>
     </g:if>
+
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=305753002839441";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
 		<r:layoutResources />
 	</body>

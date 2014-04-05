@@ -7,11 +7,7 @@
 <body>
 
 	<div class="row">
-		<div class="col-md-12">${homePageSlider.accueil.decodeHTML()}</div>
-	</div>
-
-	<div class="row">
-		<div id="carousel-example-generic" class="carousel slide col-md-offset-1 col-md-10" data-ride="carousel" style="max-height: 300px;">
+		<div id="carousel-example-generic" class="carousel slide " data-ride="carousel" style="max-height: 300px;">
 			<!-- Indicators -->
 			<!--<ol class="carousel-indicators">
 				<g:each in="${homePageSlider?.photos}" var="photo" status="i">
@@ -44,6 +40,14 @@
 				<span class="glyphicon glyphicon-chevron-right"></span>
 			</a>
 		</div>
+	</div>
+
+	<div class="row">
+		<p>&nbsp;</p>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">${homePageSlider.accueil.decodeHTML()}</div>
 	</div>
 
 	<div class="row">

@@ -7,7 +7,7 @@
 
   <div class="row">
     <g:if test="${produit.photos[0]}">
-      <r:img id="img_${produit.photos[0]?.id}" class="img-responsive img-thumbnail col-md-9 col-md-offset-1" uri="${createLink(controller:'photo', action:'showPhoto', id:"${produit.photos[0]?.id}", params:[type:'small'], absolute: true)}"/>
+      <r:img id="img_${produit.photos[0]?.id}" class="img-responsive img-thumbnail col-md-11" uri="${createLink(controller:'photo', action:'showPhoto', id:"${produit.photos[0]?.id}", params:[type:'small'], absolute: true)}"/>
     </g:if>
   </div>
 

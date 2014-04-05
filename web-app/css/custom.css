@@ -1,10 +1,24 @@
 body {
     padding-top: 110px;
+    //background: linear-gradient(white, #0099CC);
 }
 
 .navbar {
     background-color: #FFFFFF;
     height: 110px;
+}
+
+.top-header {
+	background: linear-gradient(#0099CC, white);
+}
+
+.header-logo {
+	margin-top: 10px;
+	border: 2px solid #0000CD;
+}
+
+.header-banner {
+	margin-top: 25px;
 }
 
 .container-main {
@@ -22,4 +36,16 @@ body {
 	width: 15px;
 	height: 15px;
 	cursor: pointer;
+}
+
+.container{
+	width: 95%;
+}
+
+.border-left {
+	border-left: 1px solid #EEEEEE;
+}
+
+.panel-default > .panel-heading {
+	background-color: powderblue;
 }
