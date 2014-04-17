@@ -83,32 +83,107 @@
 
 	<g:if test="${commande.statut == "création" && canPay}">
 		<div class="row">
-			<div>Vous avez la possibilité de payer votre commande en envoyant un chèque à l'adresse : Shrimpsforall, 9 rue Sengenwald, 67000 STRASBOURG. Votre commande sera traitée dès réception de celui-ci.</div>
-			<form action="${grailsApplication.config.paypal.url}" method="post" class="col-md-offset-10 col-md-1">
-				<!-- Identify your business so that you can collect the payments. -->
-				<input type="hidden" name="business" value="${grailsApplication.config.paypal.receiver}">
+			<div class="col-md-4" style="text-align:justify;">
+				<h3><b>Payer par chèque</b></h3>
+				Vous avez la possibilité de payer votre commande en envoyant un chèque à l'adresse : Shrimpsforall, 9 rue Sengenwald, 67000 STRASBOURG. Votre commande sera traitée dès réception de celui-ci.
+			</div>
 
-				<!-- Specify a Buy Now button. -->
-				<input type="hidden" name="cmd" value="_xclick">
+			<div class="col-md-5">
+				<h3><b>Payer par Carte Bancaire</b></h3>
+				<form method="POST" id="payment-form">
+					<input type="hidden" name="_eventId" value="payerParCarte">
+					
+					<div class="form-row">
+						<label>
+							<span>Numéro de carte</span>
+							<input type="text" size="20" data-stripe="number"/>
+						</label>
+					</div>
 
-				<input type="hidden" name="notify_url" value="${createLink(absolute: true, controller: 'panier', action: 'paypalresponse').replaceAll(/\?.*$/, "")}">
-				<input type="hidden" name="return" value="${createLink(absolute: true, controller: 'panier', action: 'merci').replaceAll(/\?.*$/, "")}">
-				<input type="hidden" name="invoice" value="${commande.id}">
-				<input type="hidden" name="no_note" value="1">
-				<input type="hidden" name="no_shipping" value="1">
-				<input type="hidden" name="address_override" value="1">
-				<input type="hidden" name="currency_code" value="EUR">
+					<div class="form-row">
+						<label>
+							<span>Cryptogramme Visuel</span>
+							<input type="text" size="4" data-stripe="cvc"/>
+						</label>
+					</div>
 
-				<!-- Specify details about the item that buyers will purchase. -->
-				<input type="hidden" name="item_name" value="Commande Shrimps For All">
-				<input type="hidden" name="amount" value="${commande?.totaux()?.totalTTC}">
-				<input type="hidden" name="currency_code" value="EUR">
+					<div class="form-row">
+						<label>
+							<span>Expiration (MM/AAAA)</span>
+							<input type="text" size="2" data-stripe="exp-month"/>
+						</label>
+						<span> / </span>
+						<input type="text" size="4" data-stripe="exp-year"/>
+					</div>
 
-				<!-- Display the payment button. -->
-				<input type="image" name="submit" border="0" src="https://www.paypalobjects.com/fr_FR/i/btn/btn_paynow_LG.gif" alt="PayPal - The safer, easier way to pay online">
-				<img alt="" border="0" width="1" height="1" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" >
-			</form>
+					<div class="label label-danger payment-errors"></div>
+
+					<div>
+						<g:submitButton name="payerParCarte" value="Payer" event="payerParCarte" class="btn btn-primary"/>
+						<span style="display: none;" class="btn btn-success" disabled="disabled" id="btnpaiementencours">Paiement en cours...</span>
+					</div>
+				</form>
+			</div>
+
+			<div class="col-md-2">
+				<h3><b>Paypal</b></h3>
+				<form action="${grailsApplication.config.paypal.url}" method="post">
+					<!-- Identify your business so that you can collect the payments. -->
+					<input type="hidden" name="business" value="${grailsApplication.config.paypal.receiver}">
+
+					<!-- Specify a Buy Now button. -->
+					<input type="hidden" name="cmd" value="_xclick">
+
+					<input type="hidden" name="notify_url" value="${createLink(absolute: true, controller: 'panier', action: 'paypalresponse').replaceAll(/\?.*$/, "")}">
+					<input type="hidden" name="return" value="${createLink(absolute: true, controller: 'panier', action: 'merci').replaceAll(/\?.*$/, "")}">
+					<input type="hidden" name="invoice" value="${commande.id}">
+					<input type="hidden" name="no_note" value="1">
+					<input type="hidden" name="no_shipping" value="1">
+					<input type="hidden" name="address_override" value="1">
+					<input type="hidden" name="currency_code" value="EUR">
+
+					<!-- Specify details about the item that buyers will purchase. -->
+					<input type="hidden" name="item_name" value="Commande Shrimps For All">
+					<input type="hidden" name="amount" value="${commande?.totaux()?.totalTTC}">
+					<input type="hidden" name="currency_code" value="EUR">
+
+					<!-- Display the payment button. -->
+					<input type="image" name="submit" border="0" src="https://www.paypalobjects.com/fr_FR/i/btn/btn_paynow_LG.gif" alt="PayPal - The safer, easier way to pay online">
+					<img alt="" border="0" width="1" height="1" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" >
+				</form>
+			</div>
 		</div>
+
+		<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+		<g:javascript>
+			Stripe.setPublishableKey('${grailsApplication.config.stripe.publishable.key}');
+
+			$(document).ready(function() {
+				$('#payment-form').submit(function(event) {
+					var form = $(this);
+					//form.find('button').prop('disabled', true);
+					form.find('#_eventId_payerParCarte').hide();
+					form.find('#btnpaiementencours').show();
+					Stripe.card.createToken(form, stripeResponseHandler);
+					return false;
+				});
+			});
+
+			var stripeResponseHandler = function(status, response) {
+				var form = $('#payment-form');
+				if (response.error) {
+					form.find('.payment-errors').html(response.error.message);
+					//form.find('button').prop('disabled', false);
+					form.find('#_eventId_payerParCarte').show();
+					form.find('#btnpaiementencours').hide();
+				} else {
+					var token = response.id;
+					form.append($('<input type="hidden" name="stripeToken" />').val(token));
+					form.get(0).submit();
+				}
+			};
+		</g:javascript>
+
 	</g:if>
 
 </body>

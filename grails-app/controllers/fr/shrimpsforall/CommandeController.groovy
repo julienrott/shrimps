@@ -2,6 +2,9 @@ package fr.shrimpsforall
 
 import grails.plugin.springsecurity.annotation.Secured
 
+import com.stripe.*
+import com.stripe.model.*
+
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class CommandeController {
 
@@ -10,11 +13,17 @@ class CommandeController {
     def index() { }
 
     def mescommandes() {
-    	User user = User.findByUsername(springSecurityService.getCurrentUser().getUsername())
-    	def commandes = Commande.createCriteria().list(sort: 'dateCreated', order: 'desc'){
-    		eq "client", user
-    	}
-    	render view: "listeCommandes", model: [commandes: commandes, titre: "Mes Commandes"]
+        def currentUser = springSecurityService.getCurrentUser()
+        if(currentUser) {
+        	User user = User.findByUsername(currentUser.getUsername())
+        	def commandes = Commande.createCriteria().list(sort: 'dateCreated', order: 'desc'){
+        		eq "client", user
+        	}
+        	render view: "listeCommandes", model: [commandes: commandes, titre: "Mes Commandes"]
+        }
+        else {
+            redirect controller: "home"
+        }
     }
 
     def details() {
@@ -104,8 +113,43 @@ class CommandeController {
     		redirect action: 'mescommandes'
         }
 
-        payer{
+        payer {
             render view: "/shared/_showCommande"
+            on("payerParCarte").to "chargeCard"
+        }
+
+        chargeCard {
+            action{
+                log.debug params
+                log.debug grailsApplication.config.stripe.secret.key
+                Stripe.apiKey = grailsApplication.config.stripe.secret.key;
+                Map<String, Object> chargeParams = new HashMap<String, Object>();
+                def totalInCents = conversation.commande.totaux().totalTTC*100
+                chargeParams.put("amount", totalInCents.round());
+                chargeParams.put("currency", "eur");
+                chargeParams.put("card", params.stripeToken);
+                chargeParams.put("description", "shrimpsforall.fr");
+                try {
+                    def charge = Charge.create(chargeParams);
+                    println charge.properties
+                    def commande = Commande.get(conversation.commande.id)
+                    if (commande && commande.statut != "expédiée" && charge.paid == true) {
+                        commande.stripeChargeId = charge.id
+                        commande.statut = "payée"
+                    }
+                }
+                catch(Exception e) {
+                    log.error e
+                    return error()                    
+                }
+                
+            }
+            on("success").to "merci"
+            on("error").to "error"
+        }
+
+        merci {
+            redirect controller: "panier", action: "merci"
         }
     }
 

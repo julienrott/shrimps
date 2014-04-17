@@ -53,6 +53,7 @@ grails.project.dependency.resolution = {
         runtime 'mysql:mysql-connector-java:5.1.27'
         // runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
         compile 'com.braintreepayments.gateway:braintree-java:2.22.1'
+        compile "com.stripe:stripe-java:1.12.0"
     }
 
     plugins {

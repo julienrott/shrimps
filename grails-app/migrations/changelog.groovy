@@ -39,4 +39,8 @@ databaseChangeLog = {
 	include file: 'dateCreatedInPhotos.groovy'
 
 	include file: 'paypalTransactionId.groovy'
+
+	include file: 'addStripeChargeIdToCommande.groovy'
+
+	include file: 'addDatesToUser.groovy'
 }

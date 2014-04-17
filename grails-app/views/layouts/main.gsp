@@ -96,6 +96,7 @@
                 <li><g:link controller="categorie">Catégories de produits</g:link></li>
                 <li><g:link controller="fraisPort">Frais de port</g:link></li>
                 <li><g:link controller="pageInfo">Pages Info</g:link></li>
+                <li><g:link controller="home" action="clients">Clients</g:link></li>
                 <li><g:link controller="commande" action="encreation">Commandes en création</g:link></li>
                 <li><g:link controller="commande" action="aexpedier">Commandes à expédier</g:link></li>
                 <li><g:link controller="commande" action="expediees">Commandes expédiées</g:link></li>

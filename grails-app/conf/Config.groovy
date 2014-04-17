@@ -112,6 +112,8 @@ environments {
         paypal.receiver = "julien.rott-facilitator@gmail.com"
         paypal.notify.url = "panier/paypalresponse"
         paypal.return.url = "panier/merci"
+        stripe.secret.key = "sk_test_78JCt1RpARlMxcn2xVxgIgys"
+        stripe.publishable.key = "pk_test_cE23iiOItXxTywyKn8qCFOTl"
     }
     production {
         grails.logging.jul.usebridge = false
@@ -120,6 +122,8 @@ environments {
         paypal.receiver = "shrimpsforall@outlook.fr"
         paypal.notify.url = "panier/paypalresponse"
         paypal.return.url = "panier/merci"
+        stripe.secret.key = "sk_live_UNeySAMN719QSZojFupvxJgC"
+        stripe.publishable.key = "pk_live_zvPG92zKcw81lX0z56woMamM"
     }
 }
 

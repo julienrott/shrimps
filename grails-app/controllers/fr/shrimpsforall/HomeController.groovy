@@ -110,4 +110,9 @@ class HomeController {
         }
         success()
     }
+
+    @Secured(['ROLE_ADMIN'])
+    def clients() {
+        [clients: User.list()]
+    }
 }
