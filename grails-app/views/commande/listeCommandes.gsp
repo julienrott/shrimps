@@ -32,7 +32,7 @@
               </td>
             </sec:ifAllGranted>
             
-            <td class="text-right"><g:link action="details" id="${it.id}">${formatNumber(number: it?.totaux()?.totalTTC, type: 'currency', currencyCode: 'EUR')}</g:link></td>
+            <td class="text-right"><g:link action="details" id="${it.id}">${formatNumber(number: it?.totaux()?.totalTTC, type: 'currency', currencyCode: 'EUR', locale: 'fr')}</g:link></td>
             
             <td>
               <g:set var="label" value="${it.statut == "payée" ? "primary" : it.statut == "expédiée" ? "success" : it.statut == "création" ? "warning" : ""}"/>

@@ -42,7 +42,7 @@
 						<g:hiddenField name="id" value="${plage.id}"/>
 						<g:textField name="debut" value="${plage.debut}"/>
 						<g:textField name="fin" value="${plage.fin}"/>
-						<g:textField name="prix" value="${formatNumber(number: plage.prix, type: 'currency', currencyCode: 'EUR')}"/>
+						<g:textField name="prix" value="${formatNumber(number: plage.prix, type: 'currency', currencyCode: 'EUR', locale: 'fr')}"/>
 						<g:submitButton name="_action_savePlage" value="Enregistrer"/>
 						<g:link action="deletePlage" id="${plage.id}">supprimer</g:link>
 					</g:form>
@@ -57,7 +57,7 @@
 					<g:hiddenField name="id" value="0"/>
 					<g:textField name="debut" placeholder="début"/>
 					<g:textField name="fin" placeholder="fin"/>
-					<g:textField name="prix" value="${formatNumber(number: 0, type: 'currency', currencyCode: 'EUR')}"/>
+					<g:textField name="prix" value="${formatNumber(number: 0, type: 'currency', currencyCode: 'EUR', locale: 'fr')}"/>
 					<g:submitButton name="_action_savePlage" value="Créer"/>
 				</g:form>
 

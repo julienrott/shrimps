@@ -7,7 +7,10 @@
 
   <div class="row">
     <g:if test="${produit.photos[0]}">
-      <r:img id="img_${produit.photos[0]?.id}" class="img-responsive img-thumbnail col-md-11" uri="${createLink(controller:'photo', action:'showPhoto', id:"${produit.photos[0]?.id}", params:[type:'small'], absolute: true)}"/>
+      <a class="fancybox" rel="group" title="${produit.titre}" 
+      		href="${createLink(controller:'photo', action:'showPhoto', id:"${produit.photos[0]?.id}", params:[type:'full'], absolute: true)}">
+        <r:img alt="" id="img_${produit.photos[0]?.id}" class="img-responsive img-thumbnail col-md-11" uri="${createLink(controller:'photo', action:'showPhoto', id:"${produit.photos[0]?.id}", params:[type:'small'], absolute: true)}"/>
+      </a>
     </g:if>
   </div>
 
@@ -49,7 +52,7 @@
             <h4 class="panel-title">
 
               <g:each in="${produit?.lots}" var="lot">
-                <g:hiddenField name="lot-${lot.id}" value="${formatNumber(number: lot.prix, type: 'currency', currencyCode: 'EUR')}"/>
+                <g:hiddenField name="lot-${lot.id}" value="${formatNumber(number: lot.prix, type: 'currency', currencyCode: 'EUR', locale: 'fr')}"/>
               </g:each>
 
               <g:select name="lots-${produit.id}" data-id="${produit.id}" from="${produit.lots.sort{it.id}}" optionKey="id" optionValue="titre"/>
@@ -72,7 +75,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            Prix: <span id="prix-${produit.id}">${formatNumber(number: produit.lots.size() > 0 ? produit.lots.sort{it.id}.first().prix : produit.prix, type: 'currency', currencyCode: 'EUR')}</span>
+            Prix: <span id="prix-${produit.id}">${formatNumber(number: produit.lots.size() > 0 ? produit.lots.sort{it.id}.first().prix : produit.prix, type: 'currency', currencyCode: 'EUR', locale: 'fr')}</span>
           </h4>
         </div>
       </div>

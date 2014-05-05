@@ -47,6 +47,13 @@ class Panier implements Serializable {
 
 		if(produitsWithFraisPortMiniMax.size() > 0) {
 			hasFraisPortMiniMax = true
+			def nbProduitsMiniMax = 0
+			produitsWithFraisPortMiniMax.each {
+				nbProduitsMiniMax += it.quantite
+			}
+			if (nbProduitsMiniMax > 2) {
+				hasFraisPortColis = true
+			}
 		}
 
 		def poidsTotal = 0
@@ -66,13 +73,15 @@ class Panier implements Serializable {
 			fp = FraisPort.findByTitre("mini max")
 		}
 
-		def plages = PlageFraisPort.where{
-			eq "fraisPort", fp
-			lte "debut", poidsTotal
-			gte "fin", poidsTotal
-		}.list()
-		
-		totalFraisPort += plages.size() > 0 ? plages.first().prix : 0
+		if (fp) {
+			def plages = PlageFraisPort.createCriteria().list {
+				eq "fraisPort", fp
+				lte "debut", poidsTotal
+				gte "fin", poidsTotal
+			}
+			
+			totalFraisPort += plages.size() > 0 ? plages.first().prix : 0
+		}
 
 		def totalProduits = totalProduits()
 		def totalTTC = totalProduits + totalFraisPort

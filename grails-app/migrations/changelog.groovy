@@ -43,4 +43,6 @@ databaseChangeLog = {
 	include file: 'addStripeChargeIdToCommande.groovy'
 
 	include file: 'addDatesToUser.groovy'
+
+	include file: 'mailConfig.groovy'
 }

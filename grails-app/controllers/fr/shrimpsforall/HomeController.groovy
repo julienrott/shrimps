@@ -1,11 +1,14 @@
 package fr.shrimpsforall
 
 import grails.plugin.springsecurity.annotation.Secured
+import grails.util.Environment;
 
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class HomeController {
 
     def springSecurityService
+	def mailService
+	def shrimpsMailService
 
     def index() {
         [homePageSlider: HomePageSlider.get(1)]
@@ -47,6 +50,24 @@ class HomeController {
                     }
                     else {
                     	springSecurityService.reauthenticate user.username
+						
+						def msg = "<p>Bonjour,</p><p>Vous venez de créer un compte sur shrimpsforall.fr</p><p>Votre identifiant : ${user.username}</p>".encodeAsHTML()
+						
+						shrimpsMailService.configure()
+						
+						def mails = []
+						if (Environment.current == Environment.PRODUCTION) {
+							mails = ["shrimpsforall@outlook.fr", user.username]
+						}
+						else if (Environment.current == Environment.DEVELOPMENT) {
+							mails = ["julien.rott@gmail.com", user.username]
+						}
+						
+						mailService.sendMail {
+							to mails
+							subject "Vous venez de créer un compte sur shrimpsforall.fr"
+							body view: '/shared/mailCreationCompte', model: [msg: msg]
+						}
                 	}
                 }
                 else {

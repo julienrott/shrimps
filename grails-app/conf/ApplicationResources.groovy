@@ -13,4 +13,10 @@ modules = {
     bootstrapJS {
     	resource url:'js/bootstrap.min.js'
     }
+	fancyboxCSS{
+		resource url: 'js/fancybox/jquery.fancybox.css?v=2.1.5'
+	}
+	fancyboxJS {
+		resource url: 'js/fancybox/jquery.fancybox.pack.js?v=2.1.5'
+	}
 }

@@ -11,6 +11,8 @@ class PanierController {
 
     def springSecurityService
     def daoAuthenticationProvider
+	def mailService
+	def shrimpsMailService
 
     def index() {
         redirect action: 'index'
@@ -56,6 +58,20 @@ class PanierController {
             
             if (params.payment_status == "Completed" && commande.statut != "expédiée") {
                 commande.statut = "payée"
+				
+				commande.lignes.each { LigneCommande ligne ->
+					ligne.produit.stock -= ligne.quantite
+				}
+				
+				def msg = "Bonjour,<br/>Merci de votre commande sur shrimpsforall.fr<br/>Elle sera traitée dans les meilleurs délais.".encodeAsHTML()
+				
+				shrimpsMailService.configure()
+				
+				mailService.sendMail {
+					to "julien.rott@gmail.com"
+					subject "Votre commande shrimpsforall.fr est validée"
+					body view: '/shared/mailCommande', model: [commande: commande, msg: msg]
+				}
             }
             if (params.payment_status == "Pending") {
                 commande.statut = "paiement en validation"

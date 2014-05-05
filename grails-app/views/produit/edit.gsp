@@ -44,7 +44,7 @@
 
           <div class="form-group">
             <label for="prix">Prix</label>
-            <g:textField name="prix" class="form-control" value="${formatNumber(number: produit.prix, type: 'currency', currencyCode: 'EUR')}"/>
+            <g:textField name="prix" class="form-control" value="${formatNumber(number: produit.prix, type: 'currency', currencyCode: 'EUR', locale: 'fr')}"/>
           </div>
 
           <div class="form-group">
@@ -74,7 +74,7 @@
           <g:each in="${produit?.lots}" var="lot">
             <g:form name="updateLotForm${lot.id}" id="${lot.id}">
               <g:textField name="titre" placeholder="titre" value="${lot.titre}"/>
-              <g:textField name="prix" placeholder="prix" value="${formatNumber(number: lot.prix, type: 'currency', currencyCode: 'EUR')}"/>
+              <g:textField name="prix" placeholder="prix" value="${formatNumber(number: lot.prix, type: 'currency', currencyCode: 'EUR', locale: 'fr')}"/>
               <g:submitButton name="_action_updateLot" value="Enregistrer" class="btn btn-primary"/>
               <g:submitButton name="_action_deleteLot" value="Supprimer" class="btn btn-danger"/>
             </g:form>

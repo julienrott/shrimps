@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 	<head>
 		<meta charset="utf-8">
 		<meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -35,7 +35,7 @@
       <span itemprop="telephone">06 52 45 44 55</span>
     </div>
 
-		<div class="navbar navbar-default navbar-fixed-top top-header" role="navigation">
+	<div class="navbar navbar-default navbar-fixed-top top-header" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -96,6 +96,7 @@
                 <li><g:link controller="categorie">Catégories de produits</g:link></li>
                 <li><g:link controller="fraisPort">Frais de port</g:link></li>
                 <li><g:link controller="pageInfo">Pages Info</g:link></li>
+                <li><g:link controller="config">Configuration</g:link></li>
                 <li><g:link controller="home" action="clients">Clients</g:link></li>
                 <li><g:link controller="commande" action="encreation">Commandes en création</g:link></li>
                 <li><g:link controller="commande" action="aexpedier">Commandes à expédier</g:link></li>

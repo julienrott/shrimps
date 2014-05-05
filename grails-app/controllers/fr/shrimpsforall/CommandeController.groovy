@@ -1,6 +1,7 @@
 package fr.shrimpsforall
 
 import grails.plugin.springsecurity.annotation.Secured
+import grails.util.Environment;
 
 import com.stripe.*
 import com.stripe.model.*
@@ -9,6 +10,8 @@ import com.stripe.model.*
 class CommandeController {
 
 	def springSecurityService
+	def mailService
+	def shrimpsMailService
 
     def index() { }
 
@@ -136,6 +139,28 @@ class CommandeController {
                     if (commande && commande.statut != "expédiée" && charge.paid == true) {
                         commande.stripeChargeId = charge.id
                         commande.statut = "payée"
+						
+						commande.lignes.each { LigneCommande ligne ->
+							ligne.produit.stock -= ligne.quantite
+						}
+						
+						def msg = "<p>Bonjour,</p><p>Merci de votre commande sur shrimpsforall.fr</p><p>Elle sera traitée dans les meilleurs délais.</p>".encodeAsHTML()
+						
+						shrimpsMailService.configure()
+						
+						def mails = []
+						if (Environment.current == Environment.PRODUCTION) {
+							mails = ["shrimpsforall@outlook.fr", commande.client.username]
+						}
+						else if (Environment.current == Environment.DEVELOPMENT) {
+							mails = ["julien.rott@gmail.com", commande.client.username]
+						}
+						
+						mailService.sendMail {
+							to mails
+							subject "Votre commande shrimpsforall.fr est validée"
+							body view: '/shared/mailCommande', model: [commande: commande, msg: msg]
+						}
                     }
                 }
                 catch(Exception e) {
@@ -182,6 +207,25 @@ class CommandeController {
         def commande = Commande.get(params.id)
         commande.statut = "expédiée"
         commande.save()
+		
+		def msg = "<p>Bonjour,<p></p>Votre commande shrimpsforall.fr vient d'être expédiée</p>".encodeAsHTML()
+		
+		shrimpsMailService.configure()
+		
+		def mails = []
+		if (Environment.current == Environment.PRODUCTION) {
+			mails = ["shrimpsforall@outlook.fr", commande.client.username]
+		}
+		else if (Environment.current == Environment.DEVELOPMENT) {
+			mails = ["julien.rott@gmail.com", commande.client.username]
+		}
+		
+		mailService.sendMail {
+			to mails
+			subject "Votre commande shrimpsforall.fr est expédiée"
+			body view: '/shared/mailCommande', model: [commande: commande, msg: msg]
+		}
+		
         redirect action: "aexpedier"
     }
 }

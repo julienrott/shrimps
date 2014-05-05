@@ -108,6 +108,7 @@ environments {
 environments {
     development {
         grails.logging.jul.usebridge = true
+		grails.serverURL = "https://roje.hd.free.fr/shrimps"
         paypal.url = "https://www.sandbox.paypal.com/cgi-bin/webscr"
         paypal.receiver = "julien.rott-facilitator@gmail.com"
         paypal.notify.url = "panier/paypalresponse"
@@ -158,6 +159,7 @@ log4j = {
         test {
             debug   'grails.app.controllers.fr.shrimpsforall',
                     'grails.app.services.fr.shrimpsforall',
+					'grails.app.fr.shrimpsforall',
                     'grails.app.domain'
             error   'grails.app.jobs',
                     'grails.app.filters'

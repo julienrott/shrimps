@@ -67,6 +67,7 @@ grails.project.dependency.resolution = {
         compile ":spring-security-core:2.0-RC2"
         compile ":ajax-uploader:1.1"
         compile ":webflow:2.0.8.1"
+        compile ":mail:1.0.4"
         if (grails.util.Environment.current == grails.util.Environment.PRODUCTION) {
             compile ":grails-melody:1.49.2"
         }
