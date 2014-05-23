@@ -106,7 +106,7 @@
           </sec:ifAllGranted>
 
           <ul class="nav nav-pills nav-stacked">
-            <g:each in="${fr.shrimpsforall.Categorie.list(sort: 'position', order: 'asc')}">
+            <g:each in="${fr.shrimpsforall.Categorie.list(sort: 'position', order: 'asc').grep{it.titre != "invisible"}}">
               <li class="${titre?.equals(it.titre)?'active':''}"><g:link uri="/${it.titre}">${it.titre}</g:link></li>
             </g:each>
 
