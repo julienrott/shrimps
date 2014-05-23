@@ -67,8 +67,16 @@ class PanierController {
 				
 				shrimpsMailService.configure()
 				
+				def mails = []
+				if (Environment.current == Environment.PRODUCTION) {
+					mails = ["shrimpsforall@outlook.fr", commande.client.username]
+				}
+				else if (Environment.current == Environment.DEVELOPMENT) {
+					mails = ["julien.rott@gmail.com"]
+				}
+				
 				mailService.sendMail {
-					to "julien.rott@gmail.com"
+					to mails
 					subject "Votre commande shrimpsforall.fr est validée"
 					body view: '/shared/mailCommande', model: [commande: commande, msg: msg]
 				}

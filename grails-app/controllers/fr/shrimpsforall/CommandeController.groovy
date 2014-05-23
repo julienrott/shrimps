@@ -153,7 +153,7 @@ class CommandeController {
 							mails = ["shrimpsforall@outlook.fr", commande.client.username]
 						}
 						else if (Environment.current == Environment.DEVELOPMENT) {
-							mails = ["julien.rott@gmail.com", commande.client.username]
+							mails = ["julien.rott@gmail.com"]
 						}
 						
 						mailService.sendMail {
