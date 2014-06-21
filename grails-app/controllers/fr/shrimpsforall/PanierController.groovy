@@ -1,6 +1,7 @@
 package fr.shrimpsforall
 
 import grails.plugin.springsecurity.annotation.Secured
+import grails.util.Environment;
 
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
